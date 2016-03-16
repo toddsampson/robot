@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobile_base">
+
+  <xacro:property name="platform_l" value=".2032" />
+  <xacro:property name="platform_w" value=".2286" />
+  <xacro:property name="platform_h" value=".0064" />
+  <xacro:property name="wheel_r" value=".0328" />
+  <xacro:property name="wheel_l" value=".0267" />
+  <xacro:property name="wheel_w_offset" value=".0025" />
+  <xacro:property name="wheel_h_offset" value="-.015" />
+  <xacro:property name="sensor_height" value="0.0050" />
+  <xacro:property name="pi" value="3.14159265359" />
+
+  <!-- fictitious center point between wheels for navigation -->
+<!--
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1" />
+      </material>
+    </visual>
+  </link>
+-->
+  <!-- Bot platforms -->
+  <xacro:macro name="platform" params="pos">
+    <link name="platform_${pos}">
+      <visual>
+        <geometry>
+          <box size="${platform_l} ${platform_w} ${platform_h}"/>
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:platform pos="base" />
+  <xacro:platform pos="upper" />
+  <xacro:macro name="platform_joint" params="pos xyz">
+    <joint name="platform_joint_${pos}" type="fixed">
+      <parent link="base_link" />
+      <child link="platform_${pos}" />
+      <origin xyz="${xyz}" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+  <xacro:platform_joint pos="base" xyz="0 0 ${wheel_r + wheel_h_offset}" />
+  <xacro:platform_joint pos="upper" xyz="0 0 ${wheel_r + wheel_h_offset + 0.08}" />
+
+<!--
+<link name="kinect_link">
+  <visual>
+    <geometry>
+      <box size="0.064 0.121 0.0381" />
+    </geometry>
+    <material name="Blue" />
+  </visual>
+  <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0" 
+               izz="0.0001" />
+  </inertial>
+</link>
+
+<joint name="kinect_base_joint" type="fixed">
+  <origin xyz="${platform_l / 2} 0 ${wheel_r + wheel_h_offset + 0.08}" rpy="0 0 0" />
+  <parent link="base_link" />
+  <child link="kinect_link" />
+</joint>
+
+<joint name="kinect_depth_joint" type="fixed">
+  <origin xyz="0 0.028 0" rpy="0 0 0" />
+  <parent link="kinect_link" />
+  <child link="kinect_depth_frame" />
+</joint>
+
+<link name="kinect_depth_frame">
+  <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0" 
+               izz="0.0001" />
+  </inertial>
+</link>
+
+<joint name="depth_optical_joint" type="fixed">
+  <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}" />
+  <parent link="kinect_depth_frame" />
+  <child link="kinect_depth_optical_frame" />
+</joint>
+
+<link name="kinect_depth_optical_frame">
+  <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0" 
+               izz="0.0001" />
+  </inertial>
+</link>
+-->
+
+<!-- Differential Drive Wheels -->
+  <xacro:macro name="wheel" params="pos rpy">
+    <link name="wheel_${pos}">
+      <visual>
+        <geometry>
+          <cylinder radius="${wheel_r}" length="${wheel_l}" />
+        </geometry>
+        <origin rpy="${rpy}" />
+        <material name="black">
+          <color rgba="0 0 0 1" />
+        </material>
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:wheel pos="right" rpy="${pi / 2} 0 0" />
+  <xacro:wheel pos="left" rpy="${(pi / 2) * -1} 0 0" />
+  <xacro:macro name="wheel_joint" params="pos xyz">
+    <joint name="wheel_${pos}_joint" type="continuous">
+      <parent link="base_link" />
+      <child link="wheel_${pos}" />
+      <axis xyz="0 1 0" />
+      <origin rpy="0 0 0" xyz="${xyz}" />
+    </joint>
+  </xacro:macro>
+  <xacro:wheel_joint pos="left" xyz="0 ${(platform_w / 2) + (wheel_l / 2) + wheel_w_offset} 0" />
+  <xacro:wheel_joint pos="right" xyz="0 ${((platform_w / 2) + (wheel_l / 2) + wheel_w_offset) * -1} 0" />
+
+  <!-- Sensor Array -->
+  <xacro:macro name="sonar" params="pos">
+    <link name="sonar_${pos}">
+      <visual>
+        <geometry>
+          <box size=".0015 0.0046 0.0021"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:sonar pos="left" />
+  <xacro:sonar pos="right" />
+  <xacro:macro name="ir" params="pos">
+    <link name="ir_${pos}">
+      <visual>
+        <geometry>
+          <box size=".0014 0.0030 0.0013"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:ir pos="left" />
+  <xacro:ir pos="center" />
+  <xacro:ir pos="right" />
+  <xacro:macro name="sensor_joint" params="sensor pos rpy xyz">
+    <joint name="${sensor}_${pos}_joint" type="fixed">
+      <parent link="platform_base" />
+      <child link="${sensor}_${pos}" />
+      <origin rpy="${rpy}" xyz="${xyz}" />
+    </joint>
+  </xacro:macro>
+  <xacro:sensor_joint sensor="sonar" pos="left" rpy="0 0 0.35" xyz="${(platform_l / 2) - 0.008} 0.0635 ${sensor_height}" />
+  <xacro:sensor_joint sensor="sonar" pos="right" rpy="0 0 -0.35" xyz="${(platform_l / 2) - 0.008} -0.0635 ${sensor_height}" />
+  <xacro:sensor_joint sensor="ir" pos="left" rpy="0 0 0.7" xyz="${(platform_l / 2) - 0.025} 0.125 ${sensor_height}" />
+  <xacro:sensor_joint sensor="ir" pos="center" rpy="0 0 0" xyz="${(platform_l / 2) + 0.0007} 0 ${sensor_height}" />
+  <xacro:sensor_joint sensor="ir" pos="right" rpy="0 0 -0.7" xyz="${(platform_l / 2) - 0.025} -0.125 ${sensor_height}" />
+  <xacro:macro name="sensor_depth_frame" params="sensor pos">
+    <link name="${sensor}_${pos}_depth_frame">
+      <inertial>
+        <mass value="0.0001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+  </xacro:macro>
+  <xacro:sensor_depth_frame sensor="sonar" pos="left" />
+  <xacro:sensor_depth_frame sensor="sonar" pos="right" />
+  <xacro:sensor_depth_frame sensor="ir" pos="left" />
+  <xacro:sensor_depth_frame sensor="ir" pos="center" />
+  <xacro:sensor_depth_frame sensor="ir" pos="right" />
+  <xacro:macro name="sensor_depth_frame_joint" params="sensor pos">
+    <joint name="${sensor}_${pos}_depth_joint" type="fixed">
+      <origin xyz="0 0.015 0" rpy="0 0 0" />
+      <parent link="${sensor}_${pos}" />
+      <child link="${sensor}_${pos}_depth_frame" />
+    </joint>
+  </xacro:macro>
+  <xacro:sensor_depth_frame_joint sensor="sonar" pos="left" />
+  <xacro:sensor_depth_frame_joint sensor="sonar" pos="right" />
+  <xacro:sensor_depth_frame_joint sensor="ir" pos="left" />
+  <xacro:sensor_depth_frame_joint sensor="ir" pos="center" />
+  <xacro:sensor_depth_frame_joint sensor="ir" pos="right" />
+
+</robot>
+
+
+
+  <!-- Stereo Camera -->
+  <!--
+  <xacro:macro name="camera" params="pos">
+    <link name="${pos}">
+      <visual>
+        <geometry>
+          <box size="0.020 0.015 0.015 "/>
+        </geometry>
+        <material name="black" />
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:camera pos="left" />
+  <xacro:camera pos="right" />
+  <xacro:macro name="camera_joint" params="pos xyz">
+    <joint name="camera_joint_${pos}" type="fixed">
+      <parent link="base_link" />
+      <child link="${pos}" />
+      <origin xyz="${xyz}" rpy="-${pi/2} 0 -${pi/2}" />
+    </joint>
+  </xacro:macro>
+  <xacro:camera_joint pos="left" xyz="${platform_l / 2 + 0.01} -0.053 ${wheel_r + wheel_h_offset + 0.08}" />
+  <xacro:camera_joint pos="right" xyz="${platform_l / 2 + 0.01} 0.053 ${wheel_r + wheel_h_offset + 0.08}" />
+  -->
