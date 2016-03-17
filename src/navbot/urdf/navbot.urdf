@@ -271,7 +271,7 @@
   </joint>
   <link name="head_unit">
     <visual>
-      <origin rpy="0 0 0" xyz="-1.0 -1.0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.0160528 0.1992376 0.119888"/>
       </geometry>
@@ -280,17 +280,24 @@
       </material>
     </visual>
   </link>
+  <!--
+  <joint name="platform_upper_to_head_unit" type="fixed">
+    <parent link="base_link" />
+    <child link="platform_upper" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  -->
   <joint name="base_link_to_head_unit" type="fixed">
     <parent link="base_link"/>
     <child link="head_unit"/>
-    <origin rpy="0 0 0" xyz="0 0 1.2192"/>
+    <origin rpy="0 0 0" xyz="0 0 0.12"/>
   </joint>
   <link name="phone">
     <visual>
       <!-- <origin xyz="0 0 0" rpy="3.14 0 1.57 " /> -->
-      <origin rpy="0 0 0" xyz="-1.0 -1.0 0"/>
+      <!-- <origin xyz="0 0 0" rpy="1.22 0 1.57" /> -->
       <geometry>
-        <mesh filename="package://head_unit/urdf/tango_yellowstone.dae" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://head_unit/urdf/tango_yellowstone.dae" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="grey">
         <color rgba="0.1 0.1 .5 1"/>
@@ -299,7 +306,7 @@
   </link>
   <link name="unity">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
       <geometry>
         <box size="0.0001 0.0001 0.0001"/>
       </geometry>
@@ -313,10 +320,10 @@
     <child link="phone"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
-  <joint name="base_link_to_unity" type="fixed">
-    <parent link="base_link"/>
+  <joint name="head_unit_to_unity" type="fixed">
+    <parent link="head_unit"/>
     <child link="unity"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="1.22 0 -1.57" xyz="0.1 0.1 0"/>
   </joint>
   <!--
   <joint name="head_unit_to_phone" type="fixed">
