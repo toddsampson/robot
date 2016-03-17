@@ -14,10 +14,6 @@ Panels:
         - /Range4
         - /Range5
         - /PointCloud21
-        - /Imu1
-        - /Imu1/Box properties1
-        - /Imu1/Axes properties1
-        - /Imu1/Acceleration properties1
       Splitter Ratio: 0.597315
     Tree Height: 469
   - Class: rviz/Selection
@@ -38,7 +34,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -75,17 +71,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        fix:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         head_unit:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -117,6 +103,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        phone:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         platform_base:
           Alpha: 1
           Show Axes: false
@@ -145,6 +136,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        unity:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         wheel_left:
           Alpha: 1
           Show Axes: false
@@ -168,11 +164,7 @@ Visualization Manager:
         All Enabled: true
         base_link:
           Value: true
-        fix:
-          Value: true
         head_unit:
-          Value: true
-        imu:
           Value: true
         ir_center:
           Value: true
@@ -188,6 +180,8 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
+        phone:
+          Value: true
         platform_base:
           Value: true
         platform_upper:
@@ -199,6 +193,8 @@ Visualization Manager:
         sonar_right:
           Value: true
         sonar_right_depth_frame:
+          Value: true
+        unity:
           Value: true
         wheel_left:
           Value: true
@@ -213,10 +209,9 @@ Visualization Manager:
         odom:
           base_link:
             head_unit:
-              fix:
-                {}
-              imu:
-                {}
+              unity:
+                phone:
+                  {}
             platform_base:
               ir_center:
                 ir_center_depth_frame:
@@ -296,7 +291,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: RGB8
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -311,30 +306,9 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Flat Squares
-      Topic: /points2
+      Topic: /camera/depth/points
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
-    - Acceleration properties:
-        Acc. vector alpha: 1
-        Acc. vector color: 255; 0; 0
-        Acc. vector scale: 1
-        Derotate acceleration: true
-        Enable acceleration: true
-      Axes properties:
-        Axes scale: 1
-        Enable axes: true
-      Box properties:
-        Box alpha: 1
-        Box color: 255; 0; 0
-        Enable box: true
-        x_scale: 1
-        y_scale: 1
-        z_scale: 1
-      Class: rviz_imu_plugin/Imu
-      Enabled: true
-      Name: Imu
-      Topic: /phone1/android/imu
       Value: true
   Enabled: true
   Global Options:
@@ -360,7 +334,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.0644
+      Distance: 1.54926
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -372,10 +346,10 @@ Visualization Manager:
         Z: -1.19209e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.255397
+      Pitch: 0.380397
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.12176
+      Yaw: 6.14994
     Saved: ~
 Window Geometry:
   Displays:
