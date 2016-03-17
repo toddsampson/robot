@@ -45,6 +45,7 @@
 
 <node pkg="image_transport" type="republish" name="decompress_color" args="in:=color_camera/image_raw compressed out:=color_camera/image_raw raw"/>
 
+<!--
 <node pkg="tango_streamer" type="camera_node" name="fisheye_synchronizer">
 	<param name="camera_name" value="fisheye_camera"/>
 </node>
@@ -52,7 +53,7 @@
 <node pkg="tango_streamer" type="camera_node" name="color_synchronizer">
 	<param name="camera_name" value="color_camera"/>
 </node>
-
+-->
 <node pkg="image_proc" type="image_proc" name="image_proc" ns="color_camera" />
 
 <node pkg="head_unit" type="converter" name="converter">
