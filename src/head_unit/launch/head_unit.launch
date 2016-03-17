@@ -3,7 +3,6 @@
 <!--
 <remap to="rgb/image_raw" from="color_camera/image_raw" />
 <remap to="depth/image_raw" from="point_cloud" />
--->
 
 <node pkg="tango_streamer" type="image_server.py" name="image_server_color">
    <param name="port_number" value="11111" type="int"/>
@@ -38,7 +37,6 @@
 
 <node pkg="tango_streamer" type="pointcloud_server.py" name="pointcloud_server"/>
 
-<!--
 <node pkg="tf" type="static_transform_publisher" name="device_to_depth_cam" args="0 0 0 0 0.24 0 device depth_camera 10"/>
 <node pkg="tf" type="static_transform_publisher" name="fisheye_to_depth_cam" args="0 -0.05 0 0 0 0 depth_camera fisheye_camera 10"/>
 -->
