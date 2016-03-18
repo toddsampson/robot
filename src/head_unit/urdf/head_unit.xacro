@@ -24,6 +24,57 @@
     <child link="head_unit" />
     <origin xyz="0 0 0.12" rpy="0 0 0" />
   </joint>
+
+  <link name="structure_ir">
+    <visual>
+      <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+      <geometry>
+        <box size="0.0001 0.0001 0.0001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+   <joint name="head_unit_to_structure_ir" type="fixed">
+    <parent link="head_unit" />
+    <child link="structure_ir" />
+    <origin xyz="0 0.0457 0.0813" rpy="0 0 0" />
+  </joint>
+
+  <link name="camera_left">
+    <visual>
+      <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+      <geometry>
+        <box size="0.0001 0.0001 0.0001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+  <link name="camera_right">
+    <visual>
+      <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+      <geometry>
+        <box size="0.0001 0.0001 0.0001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="head_unit_to_camera_left" type="fixed">
+    <parent link="head_unit" />
+    <child link="camera_left" />
+    <origin xyz="0 -0.0177 0.381" rpy="0 0 0" />
+  </joint>
+  <joint name="head_unit_to_camera_right" type="fixed">
+    <parent link="head_unit" />
+    <child link="camera_right" />
+    <origin xyz="0 0.0177 0.381" rpy="0 0 0" />
+  </joint>
+
   <link name="phone">
     <visual>
       <!-- <origin xyz="0 0 0" rpy="3.14 0 1.57 " /> -->
