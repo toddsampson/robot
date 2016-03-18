@@ -74,8 +74,8 @@ int main(int argc, char** argv){
   double vx = 0.0;
   double vy = 0.0;
   double vth = 0.0;
-  char base_link[] = "/base_link";
-  char odom[] = "/odom";
+  char base_link[] = "base_link";
+  char odom[] = "odom";
   ros::Duration d(1.0);
 
   bool publish_tf = true;

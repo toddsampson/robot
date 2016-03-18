@@ -1,104 +1,71 @@
 <launch>
 
+   <!-- <node name="dynparam" pkg="dynamic_reconfigure" type="dynparam" args="set /imu data_skip 9"/> -->
+
+
+   <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
+
+   <node name="odom_v_throttler" type="throttle" pkg="topic_tools" args="messages /odom_visual 3 /odom_v_throttled"/>
+
+   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+
+      <param name="frequency" value="10"/>
+
+      <param name="sensor_timeout" value="0.2"/>
+
+      <param name="two_d_mode" value="true"/>
+      <!-- <remap from="odometry/filtered" to="/robot_localization/odom_combined"/> -->
+
+      <param name="odom_frame" value="odom"/>
+      <param name="base_link_frame" value="base_link"/>
+      <param name="world_frame" value="odom"/>
+
+      <param name="transform_time_offset" value="0.0"/>
+
+      <param name="odom0" value="odom"/>
 <!--
-<remap to="rgb/image_raw" from="color_camera/image_raw" />
-<remap to="depth/image_raw" from="point_cloud" />
+      <param name="odom1" value="odom_v_throttled"/>
+-->
+      <param name="imu0" value="imu_throttled"/>
 
-<node pkg="tango_streamer" type="image_server.py" name="image_server_color">
-   <param name="port_number" value="11111" type="int"/>
-   <param name="camera_name" value="color_camera"/>
-</node>
-<node pkg="tango_streamer" type="image_server.py" name="image_server_fisheye">
-   <param name="port_number" value="11115" type="int"/>
-   <param name="camera_name" value="fisheye_camera"/>
-</node>
+      <rosparam param="odom0_config">[true, true, false,
+                                      false, false, true,
+                                      true,  true, false,
+                                      false, false, true,
+                                      false, false, false]</rosparam>
+<!--
+      <rosparam param="odom1_config">[true, true, false,
+                                      false, false, false,
+                                      true,  false, false,
+                                      false, false, false,
+                                      false, false, false]</rosparam>
+-->
+      <rosparam param="imu0_config">[true, true, false,
+                                     false,  false,  true,
+                                     false, false, false,
+                                     false,  false,  false,
+                                     false,  false,  false]</rosparam>
 
-<node pkg="tango_streamer" type="pose_server.py" name="pose_server">
-   <param name="port_number" value="11113" type="int"/>
-   <param name="pose_topic" value="tango_pose"/>
-   <param name="coordinate_frame" value="odom"/>
-</node>
+      <param name="odom0_differential" value="false"/>
+<!--
+      <param name="odom1_differential" value="false"/>
 
-<node pkg="tango_streamer" type="pose_area_server.py" name="pose_server_area"  output="screen">
-   <param name="port_number" value="11117" type="int"/>
-   <param name="pose_topic" value="tango_area_pose"/>
-   <param name="coordinate_frame" value="area_learning"/>
-</node>
+-->
+      <param name="imu0_differential" value="true"/>
 
-<node pkg="tango_streamer" type="intrinsics_server.py" name="intrinsics_server_color">
-   <param name="port_number" value="11114" type="int"/>
-   <param name="camera_name" value="color_camera"/>
-</node>
-
-<node pkg="tango_streamer" type="intrinsics_server.py" name="intrinsics_server_fisheye">
-   <param name="port_number" value="11116" type="int"/>
-   <param name="camera_name" value="fisheye_camera"/>
-</node>
-
-<node pkg="tango_streamer" type="pointcloud_server.py" name="pointcloud_server"/>
-
-<node pkg="tf" type="static_transform_publisher" name="device_to_depth_cam" args="0 0 0 0 0.24 0 device depth_camera 10"/>
-<node pkg="tf" type="static_transform_publisher" name="fisheye_to_depth_cam" args="0 -0.05 0 0 0 0 depth_camera fisheye_camera 10"/>
+<!--
+      <param name="odom0_relative" value="false"/>
+      <param name="odom1_relative" value="true"/>
 -->
 
-<node pkg="image_transport" type="republish" name="decompress_fisheye" args="in:=fisheye_camera/image_raw compressed out:=fisheye_camera/image_raw raw"/>
-
-<node pkg="image_transport" type="republish" name="decompress_color" args="in:=color_camera/image_raw compressed out:=color_camera/image_raw raw"/>
-
 <!--
-<node pkg="tango_streamer" type="camera_node" name="fisheye_synchronizer">
-	<param name="camera_name" value="fisheye_camera"/>
-</node>
-
-<node pkg="tango_streamer" type="camera_node" name="color_synchronizer">
-	<param name="camera_name" value="color_camera"/>
-</node>
+      <param name="imu0_relative" value="true"/>
 -->
-<node pkg="image_proc" type="image_proc" name="image_proc" ns="color_camera" />
 
-<node pkg="head_unit" type="converter" name="converter">
-  <remap from="points_in" to="point_cloud" />
-  <remap from="points_out" to="point_cloud2" />
-</node>
+      <param name="imu0_remove_gravitational_acceleration" value="true"/>
+      <param name="print_diagnostics" value="true"/>
 
-<!--
-  <group ns="stereo" if="$(arg stereo)">
-    <node name="left" pkg="usb_cam" type="usb_cam_node" output="screen" >
-      <param name="video_device" value="/dev/video2" />
-      <param name="image_width" value="640" />
-      <param name="image_height" value="480" />
-      <param name="pixel_format" value="mjpeg" />
-      <param name="camera_frame_id" value="left" />
-      <param name="io_method" value="mmap"/>
-      <param name="camera_info_url" type="string" value="file://$(find head_unit)/calibration/left.yaml" />
     </node>
-    <node name="right" pkg="usb_cam" type="usb_cam_node" output="screen" >
-      <param name="video_device" value="/dev/video1" />
-      <param name="image_width" value="640" />
-      <param name="image_height" value="480" />
-      <param name="pixel_format" value="mjpeg" />
-      <param name="camera_frame_id" value="right" />
-      <param name="io_method" value="mmap"/>
-      <param name="camera_info_url" type="string" value="file://$(find head_unit)/calibration/right.yaml" />
-    </node>
-    <node name="stereo_image_proc" pkg="stereo_image_proc" type="stereo_image_proc" output="screen">
-      <param name="approximate_sync" type="bool" value="true" />
-    </node>
-  </group>
--->
-
-<!--
-<node pkg="head_unit" type="imu_to_tf" name="imu_to_tf" />
--->
-
-<!--
-<include file="$(find rgbd_launch)/launch/includes/processing.launch.xml">
-  <arg name="manager" value="rgbdman" />
-  <arg name="ir_processing" value="false" />
-  <arg name="depth_registered_processing" value="false" />
-  <arg name="hw_registered_processing" value="false" />
-</include>
--->
 
 </launch>
 
