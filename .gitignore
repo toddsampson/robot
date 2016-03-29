@@ -1,2 +1,7 @@
 build/
 devel/
+install/
+src/camera_pose/
+src/iai_kinect2/
+src/libfreenect2/
+
