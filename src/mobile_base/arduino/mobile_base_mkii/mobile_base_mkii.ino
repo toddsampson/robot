@@ -430,7 +430,7 @@ void setup(){
   nh.subscribe(sub);
   nh.advertise(rpm_pub);
   nh.advertise(Debug);
-//  nh.advertise(Odompub);
+  nh.advertise(Odompub);
 //  nh.advertise(Sensorpub);
 
   //encoders

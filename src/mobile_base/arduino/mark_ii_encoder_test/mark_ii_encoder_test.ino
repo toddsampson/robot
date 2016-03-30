@@ -46,19 +46,20 @@ void setup()
 
 void loop()
 {
-  int time=millis()/200; 
+  int time=millis()/1000; 
  if(time % 10==0)
   {
     Serial.print(time);
     Serial.print("  \t  l ");
-    Serial.print(val*6/200);
+    Serial.print(val);
     Serial.print(" rpm");
-    val=0;
+
     Serial.print("  \t  r ");
-    Serial.print(right_encval*6/200);
+    Serial.print(right_encval);
     Serial.println(" rpm");
+    val=0;
     right_encval = 0;
-    delay(200);
+    delay(1000);
   analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
   analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
   analogWrite(RIGHT_MOTOR_REVERSE_PIN, 100);
@@ -69,11 +70,13 @@ void loop()
 void right_INCRE(){
   //Serial.print(" (ri)");
   right_ASet = digitalRead(right_PinA) == HIGH;
+  right_BSet = digitalRead(right_PinB) == HIGH;
   right_encval += (right_ASet != right_BSet) ? +1 : -1;
 }
 
 void right_DECRE(){
   //Serial.print(" (rd)");
+  right_ASet = digitalRead(right_PinA) == HIGH;
   right_BSet = digitalRead(right_PinB) == HIGH;
   right_encval += (right_ASet == right_BSet) ? +1 : -1;
 }
@@ -82,12 +85,14 @@ void INCRE()
 {
   //Serial.print(" (li)");
   ASet = digitalRead(PinA) == HIGH;
+  BSet = digitalRead(PinB) == HIGH;
   val += (ASet != BSet) ? +1 : -1;
 }
 
 void DECRE()
 {
   //Serial.print(" (ld)");
+  ASet = digitalRead(PinA) == HIGH;
   BSet = digitalRead(PinB) == HIGH;
   val += (ASet == BSet) ? +1 : -1;
 }
