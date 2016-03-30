@@ -214,11 +214,12 @@ boolean turningRight(){
   return false;
 }
 
+//flipped the +1 and -1
 void left_INCRE(){
 //  debug_msg.data = "LEFT INCRE";
 //  Debug.publish(&debug_msg);
   left_ASet = digitalRead(left_PinA) == HIGH;
-  left_encval += (left_ASet != left_BSet) ? +1 : -1;
+  left_encval += (left_ASet != left_BSet) ? -1 : +1;
 }
 
 void left_DECRE(){
@@ -228,21 +229,21 @@ void left_DECRE(){
 //  Debug.publish(&debug_msg);
 
   left_BSet = digitalRead(left_PinB) == HIGH;
-  left_encval += (left_ASet == left_BSet) ? +1 : -1;
+  left_encval += (left_ASet == left_BSet) ? -1 : +1;
 }
 
 void right_INCRE(){
 //  debug_msg.data = "RIGHT INCRE";
 //  Debug.publish(&debug_msg);
   right_ASet = digitalRead(right_PinA) == HIGH;
-  right_encval += (right_ASet != right_BSet) ? +1 : -1;
+  right_encval += (right_ASet != right_BSet) ? -1 : +1;
 }
 
 void right_DECRE(){
 //  debug_msg.data = "RIGHT DECRE";
 //  Debug.publish(&debug_msg);
   right_BSet = digitalRead(right_PinB) == HIGH;
-  right_encval += (right_ASet == right_BSet) ? +1 : -1;
+  right_encval += (right_ASet == right_BSet) ? -1 : +1;
 }
 
 boolean sonarBlocked(int val){
