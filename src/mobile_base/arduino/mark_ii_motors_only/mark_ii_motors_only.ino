@@ -17,8 +17,8 @@
 // MegaMoto PWM PINS
 #define LEFT_MOTOR_FORWARD_PIN 6 //TODO: change me to the right one
 #define LEFT_MOTOR_REVERSE_PIN 5 //TODO: change me to the right one
-#define RIGHT_MOTOR_FORWARD_PIN 9 //TODO: change me to the right one
-#define RIGHT_MOTOR_REVERSE_PIN 10 //TODO: change me to the right one
+#define RIGHT_MOTOR_FORWARD_PIN 10 //TODO: change me to the right one
+#define RIGHT_MOTOR_REVERSE_PIN 9 //TODO: change me to the right one
 // Place all MegaMoto Enable jumpers on D8 to turn up with HIGH signal
 #define ENABLE_PIN 8 //TODO: change me to the right one
 
@@ -169,10 +169,10 @@ void turnLeft(){
   leftHeading = 2;
   rightHeading = 1;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
-  analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
-  analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
-  analogWrite(RIGHT_MOTOR_FORWARD_PIN, currSpeed);
-  analogWrite(LEFT_MOTOR_REVERSE_PIN, currSpeed); 
+  analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
+  analogWrite(LEFT_MOTOR_REVERSE_PIN, 0); 
+  analogWrite(RIGHT_MOTOR_REVERSE_PIN, currSpeed);
+  analogWrite(LEFT_MOTOR_FORWARD_PIN, currSpeed);
 }
 
 void turnRight(){
@@ -182,10 +182,10 @@ void turnRight(){
   leftHeading = 1;
   rightHeading = 2;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
-  analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
-  analogWrite(LEFT_MOTOR_REVERSE_PIN, 0); 
-  analogWrite(RIGHT_MOTOR_REVERSE_PIN, currSpeed);
-  analogWrite(LEFT_MOTOR_FORWARD_PIN, currSpeed); 
+  analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
+  analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
+  analogWrite(RIGHT_MOTOR_FORWARD_PIN, currSpeed);
+  analogWrite(LEFT_MOTOR_REVERSE_PIN, currSpeed); 
 }
 
 void stopMovement(){
