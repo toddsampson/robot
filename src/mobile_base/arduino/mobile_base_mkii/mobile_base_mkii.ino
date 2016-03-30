@@ -82,9 +82,9 @@ long totalDiffs = 0;
 ros::NodeHandle  nh;
 std_msgs::String debug_msg;
 ros::Publisher Debug ("debug_bot", &debug_msg);
-//geometry_msgs::Twist twist_msg;
+geometry_msgs::Twist twist_msg;
 //ros::Publisher Sensorpub ("sensor_debug", &twist_msg);
-//ros::Publisher Odompub ("odom_debug", &twist_msg);
+ros::Publisher Odompub ("odom_debug", &twist_msg);
 sensor_msgs::Range sonar_range_msg;
 ros::Publisher sl_pub( "sonar_left_depth_frame", &sonar_range_msg);
 ros::Publisher sc_pub( "sonar_center_depth_frame", &sonar_range_msg);
@@ -383,15 +383,15 @@ void controlMotors(){
   }  
 }
 
-//void debugOdom(double vel_lx, double vel_az, long currCoder0, long currCoder1, long rpm0, long rpm1){
-//  twist_msg.linear.x = vel_lx;
-//  twist_msg.linear.y = vel_az;
-//  twist_msg.linear.z = currCoder0;
-//  twist_msg.angular.x = currCoder1;
-//  twist_msg.angular.y = rpm0;
-//  twist_msg.angular.z = rpm1;
-//  Odompub.publish(&twist_msg);
-//}
+void debugOdom(double totalCoder0, double totalCoder1, long currCoder0, long currCoder1, long rpm0, long rpm1){
+  twist_msg.linear.x = totalCoder0;
+  twist_msg.linear.y = totalCoder1;
+  twist_msg.linear.z = currCoder0;
+  twist_msg.angular.x = currCoder1;
+  twist_msg.angular.y = rpm0;
+  twist_msg.angular.z = rpm1;
+  Odompub.publish(&twist_msg);
+}
 
 void publishOdom(double vel_lx, double vel_az, unsigned long time){
   rpm_msg.header.stamp = nh.now();
@@ -416,12 +416,10 @@ void handleOdometry(unsigned long time){
   double elapsed = time/(double)1000;
   double tickRatio0 = (double)currCoder0/encoderTicks;
   double tickRatio1 = (double)currCoder1/encoderTicks;
-  double rpm0 = (60*(tickRatio0))/(double)elapsed;
-  double rpm1 = (60*(tickRatio1))/(double)elapsed;
   vel_lx = double((currCoder0)*60*1000)/double(time*encoderTicks*gearRatio);
   vel_az = double((currCoder1)*60*1000)/double(time*encoderTicks*gearRatio);
 
-  //debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, rpm0, rpm1);
+  debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, vel_lx, vel_az);
   publishOdom(vel_lx, vel_az, time);
 }
 
