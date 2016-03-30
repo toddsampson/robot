@@ -11,10 +11,16 @@
 #include <cmath>
 #include <algorithm>
 
-#define encoder_pulse   20
-#define wheel_diameter  0.0656   //m
-#define wheel_width     0.0266     //m
-#define track_width     0.269   //m
+// mk i
+//#define encoder_pulse   20
+//#define wheel_diameter  0.0656   //m
+//#define track_width     0.269   //m
+
+//mk ii
+#define encoder_pulse   600
+#define wheel_diameter  0.2032   //m
+#define track_width     0.4826  //m
+
 #define pi              3.1415926
 #define two_pi          6.2831853
 

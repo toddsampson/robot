@@ -1,4 +1,7 @@
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="02c4", ATTRS{idVendor}=="045e", GROUP="dialout"
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="02be", ATTRS{idVendor}=="045e", GROUP="dialout"
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="02bf", ATTRS{idVendor}=="045e", GROUP="dialout"
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="02c2", ATTRS{idVendor}=="045e", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idProduct}=="02c4", ATTRS{idVendor}=="045e", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idProduct}=="02be", ATTRS{idVendor}=="045e", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idProduct}=="02bf", ATTRS{idVendor}=="045e", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idProduct}=="02c2", ATTRS{idVendor}=="045e", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="02d8", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="02d9", GROUP="dialout"
+
