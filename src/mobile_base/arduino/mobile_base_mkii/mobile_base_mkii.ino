@@ -68,7 +68,7 @@ unsigned long lastMssgTime = 0;
 float wheelDiameter = 20.32; // In cm (8 in)
 byte wheelSeparation = 48.26; // In cm (19 in)
 int encoderTicks = 600; // Per rotation
-byte gearRatio =  0.3571; //(10:28)
+byte gearRatio =  1; //(10:28)
 unsigned long lastMilli = 0;
 long currCoder0 = 0;
 long currCoder1 = 0;
@@ -117,8 +117,8 @@ int nextSpeed(int minSpeed, int maxSpeed){
 }
 
 void moveForward(){
-//  debug_msg.data = "MOVING FORWARD";
-//  Debug.publish(&debug_msg);
+  debug_msg.data = "MOVING FORWARD";
+  Debug.publish(&debug_msg);
   running = true;
   leftHeading = 1;
   rightHeading = 1;
@@ -130,8 +130,8 @@ void moveForward(){
 }
 
 void moveBackward(){
-//  debug_msg.data = "MOVING BACKWARD";
-//  Debug.publish(&debug_msg);
+  debug_msg.data = "MOVING BACKWARD";
+  Debug.publish(&debug_msg);
   running = true;
   leftHeading = 2;
   rightHeading = 2;
@@ -143,8 +143,8 @@ void moveBackward(){
 }
 
 void turnLeft(){
-//  debug_msg.data = "TURN LEFT";
-//  Debug.publish(&debug_msg);
+  debug_msg.data = "TURN LEFT";
+  Debug.publish(&debug_msg);
   running = true;
   leftHeading = 2;
   rightHeading = 1;
@@ -156,8 +156,8 @@ void turnLeft(){
 }
 
 void turnRight(){
-//  debug_msg.data = "TURN RIGHT";
-//  Debug.publish(&debug_msg);
+  debug_msg.data = "TURN RIGHT";
+  Debug.publish(&debug_msg);
   running = true;
   leftHeading = 1;
   rightHeading = 2;
@@ -169,8 +169,8 @@ void turnRight(){
 }
 
 void stopMovement(){
-//  debug_msg.data = "MOVEMENT STOPPED";
-//  Debug.publish(&debug_msg);
+  debug_msg.data = "MOVEMENT STOPPED";
+  Debug.publish(&debug_msg);
   analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
   analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
   analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
