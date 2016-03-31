@@ -34,10 +34,10 @@ byte sr_echo = 4; //TODO: change me to the right one
 byte sr_gnd = 5; //TODO: change me to the right one
 
 // MegaMoto PWM PINS
-byte LEFT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
-byte LEFT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
-byte RIGHT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
-byte RIGHT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+byte LEFT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
+byte LEFT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+byte RIGHT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
+byte RIGHT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
 // Place all MegaMoto Enable jumpers on D8 to turn up with HIGH signal
 byte ENABLE_PIN = 8; //TODO: change me to the right one
 
@@ -45,14 +45,10 @@ byte ENABLE_PIN = 8; //TODO: change me to the right one
 double left_encval=0;
 byte  left_PinA=20; //TODO: change me to the right one
 byte left_PinB=21; //TODO: change me to the right one
-int left_ASet;
-int left_BSet;
 
 double right_encval=0;
 byte  right_PinA=18; //TODO: change me to the right one
 byte right_PinB=19; //TODO: change me to the right one
-int right_ASet;
-int right_BSet;
 
 float currX = 0.0;
 float currZ = 0.0;
@@ -214,36 +210,20 @@ boolean turningRight(){
   return false;
 }
 
-//flipped the +1 and -1
 void left_INCRE(){
-//  debug_msg.data = "LEFT INCRE";
-//  Debug.publish(&debug_msg);
-  left_ASet = digitalRead(left_PinA) == HIGH;
-  left_encval += (left_ASet != left_BSet) ? -1 : +1;
-}
-
-void left_DECRE(){
-//  dtostrf(left_encval, 4, 2, str_temp);
-//  sprintf(str, "left decre: %s",str_temp);
-//  debug_msg.data = str;
-//  Debug.publish(&debug_msg);
-
-  left_BSet = digitalRead(left_PinB) == HIGH;
-  left_encval += (left_ASet == left_BSet) ? -1 : +1;
+  if(digitalRead(left_PinA) != digitalRead(left_PinB)){
+    left_encval++;
+  } else {
+    left_encval--;
+  }
 }
 
 void right_INCRE(){
-//  debug_msg.data = "RIGHT INCRE";
-//  Debug.publish(&debug_msg);
-  right_ASet = digitalRead(right_PinA) == HIGH;
-  right_encval += (right_ASet != right_BSet) ? -1 : +1;
-}
-
-void right_DECRE(){
-//  debug_msg.data = "RIGHT DECRE";
-//  Debug.publish(&debug_msg);
-  right_BSet = digitalRead(right_PinB) == HIGH;
-  right_encval += (right_ASet == right_BSet) ? -1 : +1;
+  if(digitalRead(right_PinA) != digitalRead(right_PinB)){
+    right_encval++;
+  } else {
+    right_encval--;
+  }
 }
 
 boolean sonarBlocked(int val){
@@ -436,17 +416,11 @@ void setup(){
   //encoders
   pinMode(left_PinA, INPUT_PULLUP);
   pinMode(left_PinB, INPUT_PULLUP);
-  left_ASet = digitalRead(left_PinA);
-  left_BSet = digitalRead(left_PinB);   // read the input pin
   attachInterrupt(digitalPinToInterrupt(left_PinA), left_INCRE, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(left_PinB), left_DECRE, CHANGE);
   
   pinMode(right_PinA, INPUT_PULLUP);
   pinMode(right_PinB, INPUT_PULLUP);
-  right_ASet = digitalRead(right_PinA);
-  right_BSet = digitalRead(right_PinB);   // read the input pin
   attachInterrupt(digitalPinToInterrupt(right_PinA), right_INCRE, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(right_PinB), right_DECRE, CHANGE);
 
   //motors
   //Initialize Motor shields for Arduino (MegaMoto shields)

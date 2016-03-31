@@ -10,10 +10,10 @@ byte right_PinB=3; //TODO: change me to the right one
 int right_ASet;
 int right_BSet;
 
-byte LEFT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
-byte LEFT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
-byte RIGHT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
-byte RIGHT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+byte LEFT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
+byte LEFT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+byte RIGHT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
+byte RIGHT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
 // Place all MegaMoto Enable jumpers on D8 to turn up with HIGH signal
 byte ENABLE_PIN = 8; //TODO: change me to the right one
 
@@ -71,14 +71,14 @@ void right_INCRE(){
   //Serial.print(" (ri)");
   right_ASet = digitalRead(right_PinA) == HIGH;
   right_BSet = digitalRead(right_PinB) == HIGH;
-  right_encval += (right_ASet != right_BSet) ? +1 : -1;
+  right_encval -= (right_ASet != right_BSet) ? +1 : -1;
 }
 
 void right_DECRE(){
   //Serial.print(" (rd)");
   right_ASet = digitalRead(right_PinA) == HIGH;
   right_BSet = digitalRead(right_PinB) == HIGH;
-  right_encval += (right_ASet == right_BSet) ? +1 : -1;
+  right_encval -= (right_ASet == right_BSet) ? +1 : -1;
 }
 
 void INCRE()

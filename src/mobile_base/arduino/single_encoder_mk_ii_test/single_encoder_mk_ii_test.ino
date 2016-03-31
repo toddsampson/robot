@@ -1,6 +1,6 @@
 double val=0;
-byte  PinA=20;
-byte PinB=21;
+byte  PinA=18;
+byte PinB=19;
 int ASet;
 int BSet;
 
@@ -45,9 +45,9 @@ void loop()
     Serial.print(" rpm");
     val=0;
     analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
-    analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
+    analogWrite(RIGHT_MOTOR_REVERSE_PIN, 200);
     analogWrite(LEFT_MOTOR_FORWARD_PIN, 200);
-    analogWrite(RIGHT_MOTOR_FORWARD_PIN, 200);
+    analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
     motorTimer = time;
   }
   lastMilli = time;

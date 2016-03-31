@@ -15,12 +15,12 @@
 #define moveBackSpeedMax 235
 
 // MegaMoto PWM PINS
-#define LEFT_MOTOR_FORWARD_PIN 6 //TODO: change me to the right one
-#define LEFT_MOTOR_REVERSE_PIN 5 //TODO: change me to the right one
-#define RIGHT_MOTOR_FORWARD_PIN 10 //TODO: change me to the right one
-#define RIGHT_MOTOR_REVERSE_PIN 9 //TODO: change me to the right one
+byte LEFT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
+byte LEFT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+byte RIGHT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
+byte RIGHT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
 // Place all MegaMoto Enable jumpers on D8 to turn up with HIGH signal
-#define ENABLE_PIN 8 //TODO: change me to the right one
+byte ENABLE_PIN = 8; //TODO: change me to the right one
 
 float currX = 0.0;
 float currZ = 0.0;
