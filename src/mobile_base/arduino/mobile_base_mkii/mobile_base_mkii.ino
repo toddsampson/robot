@@ -43,12 +43,12 @@ byte ENABLE_PIN = 8; //TODO: change me to the right one
 
 //encoders
 double left_encval=0;
-byte  left_PinA=20; //TODO: change me to the right one
-byte left_PinB=21; //TODO: change me to the right one
+byte  left_PinA=18; //TODO: change me to the right one
+byte left_PinB=19; //TODO: change me to the right one
 
 double right_encval=0;
-byte  right_PinA=18; //TODO: change me to the right one
-byte right_PinB=19; //TODO: change me to the right one
+byte  right_PinA=20; //TODO: change me to the right one
+byte right_PinB=21; //TODO: change me to the right one
 
 float currX = 0.0;
 float currZ = 0.0;
