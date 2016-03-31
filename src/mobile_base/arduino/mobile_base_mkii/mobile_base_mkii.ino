@@ -145,10 +145,10 @@ void turnLeft(){
   leftHeading = 2;
   rightHeading = 1;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
-  analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
-  analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
-  analogWrite(RIGHT_MOTOR_REVERSE_PIN, currSpeed);
-  analogWrite(LEFT_MOTOR_FORWARD_PIN, currSpeed);
+  analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
+  analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
+  analogWrite(RIGHT_MOTOR_FORWARD_PIN, currSpeed);
+  analogWrite(LEFT_MOTOR_REVERSE_PIN, currSpeed);
 }
 
 void turnRight(){
@@ -158,10 +158,10 @@ void turnRight(){
   leftHeading = 1;
   rightHeading = 2;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
-  analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
-  analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
-  analogWrite(RIGHT_MOTOR_FORWARD_PIN, currSpeed);
-  analogWrite(LEFT_MOTOR_REVERSE_PIN, currSpeed); 
+  analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
+  analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
+  analogWrite(RIGHT_MOTOR_REVERSE_PIN, currSpeed);
+  analogWrite(LEFT_MOTOR_FORWARD_PIN, currSpeed); 
 }
 
 void stopMovement(){
