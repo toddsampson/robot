@@ -370,7 +370,7 @@ void publishOdom(double vel_lx, double vel_az, unsigned long time){
   nh.spinOnce(); 
 }
 
-double getRightEncVal(double left_val){
+double getActualLeftEncVal(double left_val){
   if(movingForward() || movingBackward()){
     return left_val;
   }
@@ -382,8 +382,8 @@ void handleOdometry(unsigned long time){
   Debug.publish(&debug_msg); 
   double vel_lx = 0; // odom linear x velocity
   double vel_az = 0; // odom angular z velocity
-  totalCoder0 = left_encval;  // this method of holding the encoder value
-  totalCoder1 = getRightEncVal(totalCoder0);
+  totalCoder1 = left_encval;  // our drive chain reverses this, so even though the data comes from the left wheel
+  totalCoder0 = getActualLeftEncVal(totalCoder1);  //we treat it as though it was the right for odom calc 
   currCoder0 = totalCoder0 - prevCoder0;
   currCoder1 = totalCoder1 - prevCoder1;
   prevCoder0 = totalCoder0;
