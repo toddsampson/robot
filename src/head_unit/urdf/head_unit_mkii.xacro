@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="head_unit">
+  <link name="head_unit">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0677 0.1120 0.0200"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+  
+  <joint name="base_link_to_head_unit" type="fixed">
+    <parent link="base_link" />
+    <child link="head_unit" />
+    <origin xyz="0 0 1.2192" rpy="0 0 0" />
+  </joint>
+
+  <xacro:include filename="../../head_unit/urdf/kinect2.xacro" />
+
+</robot>

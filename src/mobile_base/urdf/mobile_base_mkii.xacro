@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobile_base_mkii">
+
+  <xacro:property name="platform_l" value="0.6096" />
+  <xacro:property name="platform_w" value="0.6096" />
+  <xacro:property name="platform_h" value="0.2413" />
+  <xacro:property name="pi" value="3.14159265359" />
+
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 ${pi/2}" xyz="0 0 ${platform_h/2}"/>
+      <geometry>
+        <mesh filename="package://mobile_base/urdf/meshes/mobile_base_mkii.stl"  scale="1 1 1.18" />
+      </geometry>
+      <material name="black">
+        <color rgb="0 0 0" />
+      </material>
+    </visual>
+  </link>
+
+</robot>
