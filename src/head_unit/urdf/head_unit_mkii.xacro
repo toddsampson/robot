@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="head_unit">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="head_unit">i
+  <xacro:property name="pi" value="3.14159265359" />
+
   <link name="head_unit">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="0.0677 0.1120 0.0200"/>
+        <box size="0.0677 0.1120 0.0200" />
       </geometry>
       <material name="grey">
         <color rgba="0.1 0.1 .5 1"/>
@@ -17,6 +19,64 @@
     <child link="head_unit" />
     <origin xyz="0 0 1.2192" rpy="0 0 0" />
   </joint>
+
+  <link name="head_mount">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1268 0.1525 0.0096" />
+      </geometry>
+      <material name="silver">
+        <color rgba="129 129 129 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="head_unit_to_head_mount" type="fixed">
+    <parent link="head_unit" />
+    <child link="head_mount" />
+    <origin xyz="0 0 -0.94" rpy="0 0 0 " />
+  </joint>
+
+  <link name="t-slot-rod">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+         <mesh filename="package://head_unit/urdf/meshes/t-slot-rod.stl" scale="1 1 0.8"/>
+      </geometry>
+      <material name="silver" />
+    </visual>
+  </link>
+
+  <joint name="head_unit_to_t-slot-rod" type="fixed">
+    <parent link="head_unit" />
+    <child link="t-slot-rod" />
+    <origin xyz="0 0 -0.49" rpy="0 0 0" />
+  </joint>
+
+  <xacro:macro name="t-slot-bracket" params="name xyz rpy">
+    <link name="t-slot-bracket-${name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
+        </geometry>
+        <material name="silver" />
+      </visual>
+    </link>
+
+    <joint name="head_unit_to_t-slot-bracket-${name}" type="fixed">
+      <parent link="head_unit" />
+      <child link="t-slot-bracket-${name}" />
+      <origin xyz="${xyz}" rpy="${rpy}" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:t-slot-bracket name="bottom-left" xyz="0 0.0191 -0.935" rpy="${pi/2} 0 ${pi/2}" />
+  <xacro:t-slot-bracket name="bottom-right" xyz="0 -0.0191 -0.935" rpy="${pi/2} 0 -${pi/2}" />
+  <xacro:t-slot-bracket name="top-left" xyz="0 0.0191 -0.01" rpy="-${pi/2} 0 ${pi/2}" />
+  <xacro:t-slot-bracket name="top-right" xyz="0 -0.0191 -0.01" rpy="-${pi/2} 0 -${pi/2}" />
+
 
   <xacro:include filename="../../head_unit/urdf/kinect2.xacro" />
 
