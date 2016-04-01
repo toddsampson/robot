@@ -60,8 +60,8 @@ byte forwardBlocked = 0; //0 unblocked, 1 blocked
 unsigned long lastMssgTime = 0;
 float wheelDiameter = 20.32; // In cm (8 in)
 byte wheelSeparation = 48.26; // In cm (19 in)
-int encoderTicks = 1680; // Per rotation
-byte gearRatio =  1; //(10:28)
+int encoderTicks = 600; // Per rotation
+float gearRatio =  0.357; //(10:28)
 unsigned long lastMilli = 0;
 long currCoder0 = 0;
 long currCoder1 = 0;
@@ -397,9 +397,12 @@ void handleOdometry(unsigned long time){
   double tickRatio0 = (double)currCoder0/encoderTicks;
   double tickRatio1 = (double)currCoder1/encoderTicks;
   vel_lx = double((currCoder0)*60*1000)/double(time*encoderTicks*gearRatio);
-  vel_az = double((currCoder1)*60*1000)/double(time*encoderTicks*gearRatio);
-
-  debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, vel_lx, vel_az);
+  if(negateOtherEnc == true){
+    vel_az = -vel_lx;
+  } else {
+    vel_az = vel_lx;
+  }
+  debugOdom(totalCoder0, totalCoder1, currCoder0, currCoder1, vel_lx, vel_az);
   publishOdom(vel_lx, vel_az, time);
 }
 
