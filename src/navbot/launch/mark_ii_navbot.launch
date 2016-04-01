@@ -4,7 +4,7 @@
   <arg name="joy" default="false" />
   <arg name="joystick" default="/dev/input/js0" />
   <arg name="stereo" default="false" />
-  <param name="robot_description" textfile="$(find navbot)/urdf/navbot.urdf" />
+  <param name="robot_description" textfile="$(find navbot)/urdf/navbot_mkii.urdf" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publister" />
   <include file="$(find mobile_base)/launch/mobile_base.launch" >
