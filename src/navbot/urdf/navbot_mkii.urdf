@@ -25,6 +25,8 @@
       </material>
     </visual>
   </link>
+  i
+  
   <link name="head_unit">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -40,6 +42,92 @@
     <parent link="base_link"/>
     <child link="head_unit"/>
     <origin rpy="0 0 0" xyz="0 0 1.2192"/>
+  </joint>
+  <link name="head_mount">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.1268 0.1525 0.0096"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="129 129 129 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="head_unit_to_head_mount" type="fixed">
+    <parent link="head_unit"/>
+    <child link="head_mount"/>
+    <origin rpy="0 0 0 " xyz="0 0 -0.94"/>
+  </joint>
+  <link name="t-slot-rod">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-rod.stl" scale="1 1 0.8"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_t-slot-rod" type="fixed">
+    <parent link="head_unit"/>
+    <child link="t-slot-rod"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.49"/>
+  </joint>
+  <link name="t-slot-bracket-bottom-left">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_t-slot-bracket-bottom-left" type="fixed">
+    <parent link="head_unit"/>
+    <child link="t-slot-bracket-bottom-left"/>
+    <origin rpy="1.5707963268 0 1.5707963268" xyz="0 0.0191 -0.935"/>
+  </joint>
+  <link name="t-slot-bracket-bottom-right">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_t-slot-bracket-bottom-right" type="fixed">
+    <parent link="head_unit"/>
+    <child link="t-slot-bracket-bottom-right"/>
+    <origin rpy="1.5707963268 0 -1.5707963268" xyz="0 -0.0191 -0.935"/>
+  </joint>
+  <link name="t-slot-bracket-top-left">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_t-slot-bracket-top-left" type="fixed">
+    <parent link="head_unit"/>
+    <child link="t-slot-bracket-top-left"/>
+    <origin rpy="-1.5707963268 0 1.5707963268" xyz="0 0.0191 -0.01"/>
+  </joint>
+  <link name="t-slot-bracket-top-right">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_t-slot-bracket-top-right" type="fixed">
+    <parent link="head_unit"/>
+    <child link="t-slot-bracket-top-right"/>
+    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0 -0.0191 -0.01"/>
   </joint>
   <material name="Kinect2Grey">
     <color rgba="0.15 0.15 0.15 1.0"/>
