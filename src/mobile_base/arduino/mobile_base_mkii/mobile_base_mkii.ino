@@ -43,12 +43,8 @@ byte ENABLE_PIN = 8; //TODO: change me to the right one
 
 //encoders
 double left_encval=0;
-byte  left_PinA=18; //TODO: change me to the right one
-byte left_PinB=19; //TODO: change me to the right one
-
-double right_encval=0;
-byte  right_PinA=20; //TODO: change me to the right one
-byte right_PinB=21; //TODO: change me to the right one
+byte  left_PinA=20; //TODO: change me to the right one
+byte left_PinB=21; //TODO: change me to the right one
 
 float currX = 0.0;
 float currZ = 0.0;
@@ -210,19 +206,11 @@ boolean turningRight(){
   return false;
 }
 
-void left_INCRE(){
+void leftEncCb(){
   if(digitalRead(left_PinA) != digitalRead(left_PinB)){
     left_encval++;
   } else {
     left_encval--;
-  }
-}
-
-void right_INCRE(){
-  if(digitalRead(right_PinA) != digitalRead(right_PinB)){
-    right_encval++;
-  } else {
-    right_encval--;
   }
 }
 
@@ -382,13 +370,20 @@ void publishOdom(double vel_lx, double vel_az, unsigned long time){
   nh.spinOnce(); 
 }
 
+double getActualLeftEncVal(double left_val){
+  if(movingForward() || movingBackward()){
+    return left_val;
+  }
+  return -left_val;
+}
+
 void handleOdometry(unsigned long time){
   debug_msg.data = "HANDLE ODOM";
   Debug.publish(&debug_msg); 
   double vel_lx = 0; // odom linear x velocity
   double vel_az = 0; // odom angular z velocity
-  totalCoder0 = left_encval;  // this method of holding the encoder value
-  totalCoder1 = right_encval;  // prevents us from losing any ticks
+  totalCoder1 = left_encval;  // our drive chain reverses this, so even though the data comes from the left wheel
+  totalCoder0 = getActualLeftEncVal(totalCoder1);  //we treat it as though it was the right for odom calc 
   currCoder0 = totalCoder0 - prevCoder0;
   currCoder1 = totalCoder1 - prevCoder1;
   prevCoder0 = totalCoder0;
@@ -416,11 +411,7 @@ void setup(){
   //encoders
   pinMode(left_PinA, INPUT_PULLUP);
   pinMode(left_PinB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(left_PinA), left_INCRE, CHANGE);
-  
-  pinMode(right_PinA, INPUT_PULLUP);
-  pinMode(right_PinB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(right_PinA), right_INCRE, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(left_PinA), leftEncCb, RISING);
 
   //motors
   //Initialize Motor shields for Arduino (MegaMoto shields)
