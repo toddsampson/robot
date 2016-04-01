@@ -42,7 +42,7 @@ byte RIGHT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
 byte ENABLE_PIN = 8; //TODO: change me to the right one
 
 //encoders
-double left_encval=0;
+volatile long left_encval=0;
 byte  left_PinA=20; //TODO: change me to the right one
 byte left_PinB=21; //TODO: change me to the right one
 
@@ -52,6 +52,7 @@ float goalX = 0.0;
 float goalZ = 0.0;
 boolean running = false;
 boolean cb = false;
+boolean negateOtherEnc = false;
 byte currSpeed = 0;
 byte leftHeading = 0; //1 forward, 2 backward
 byte rightHeading = 0; //1 forward, 2 backward
@@ -59,7 +60,7 @@ byte forwardBlocked = 0; //0 unblocked, 1 blocked
 unsigned long lastMssgTime = 0;
 float wheelDiameter = 20.32; // In cm (8 in)
 byte wheelSeparation = 48.26; // In cm (19 in)
-int encoderTicks = 600; // Per rotation
+int encoderTicks = 1680; // Per rotation
 byte gearRatio =  1; //(10:28)
 unsigned long lastMilli = 0;
 long currCoder0 = 0;
@@ -112,6 +113,7 @@ void moveForward(){
   debug_msg.data = "MOVING FORWARD";
   Debug.publish(&debug_msg);
   running = true;
+  negateOtherEnc = false;
   leftHeading = 1;
   rightHeading = 1;
   currSpeed = nextSpeed(moveSpeedStart, moveSpeedMax);
@@ -125,6 +127,7 @@ void moveBackward(){
   debug_msg.data = "MOVING BACKWARD";
   Debug.publish(&debug_msg);
   running = true;
+  negateOtherEnc = false;
   leftHeading = 2;
   rightHeading = 2;
   currSpeed = nextSpeed(moveSpeedStart, moveBackSpeedMax);
@@ -138,6 +141,7 @@ void turnLeft(){
   debug_msg.data = "TURN LEFT";
   Debug.publish(&debug_msg);
   running = true;
+  negateOtherEnc = true;
   leftHeading = 2;
   rightHeading = 1;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
@@ -151,6 +155,7 @@ void turnRight(){
   debug_msg.data = "TURN RIGHT";
   Debug.publish(&debug_msg);
   running = true;
+  negateOtherEnc = true;
   leftHeading = 1;
   rightHeading = 2;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
@@ -371,10 +376,10 @@ void publishOdom(double vel_lx, double vel_az, unsigned long time){
 }
 
 double getOtherEncVal(double left_val){
-  if(movingForward() || movingBackward()){
-    return left_val;
+  if(negateOtherEnc == true){
+    return -left_val;
   }
-  return -left_val;
+  return left_val;
 }
 
 void handleOdometry(unsigned long time){
@@ -383,7 +388,7 @@ void handleOdometry(unsigned long time){
   double vel_lx = 0; // odom linear x velocity
   double vel_az = 0; // odom angular z velocity
   totalCoder0 = left_encval;
-  totalCoder1 = getOtherEncVal(totalCoder1);
+  totalCoder1 = getOtherEncVal(totalCoder0);
   currCoder0 = totalCoder0 - prevCoder0;
   currCoder1 = totalCoder1 - prevCoder1;
   prevCoder0 = totalCoder0;
