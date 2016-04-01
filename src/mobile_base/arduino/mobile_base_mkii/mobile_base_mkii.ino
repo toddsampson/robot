@@ -207,7 +207,7 @@ boolean turningRight(){
 }
 
 void leftEncCb(){
-  if(digitalRead(left_PinA) == digitalRead(left_PinB)){
+  if(digitalRead(left_PinA) != digitalRead(left_PinB)){
     left_encval++;
   } else {
     left_encval--;
