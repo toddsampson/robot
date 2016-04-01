@@ -1,30 +1,30 @@
-double val=0;
+volatile double val=0;
 byte  PinA=2;
 byte PinB=3;
 
-double right_encval=0;
-byte  right_PinA=20; //TODO: change me to the right one
-byte right_PinB=21; //TODO: change me to the right one
+volatile double right_encval=0;
+const byte right_PinA=20; //TODO: change me to the right one
+const byte right_PinB=21; //TODO: change me to the right one
 
 unsigned long lastMilli = 0;
 
-byte LEFT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
-byte LEFT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
-byte RIGHT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
-byte RIGHT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
+const byte LEFT_MOTOR_FORWARD_PIN = 6; //TODO: change me to the right one
+const byte LEFT_MOTOR_REVERSE_PIN = 5; //TODO: change me to the right one
+const byte RIGHT_MOTOR_FORWARD_PIN = 10; //TODO: change me to the right one
+const byte RIGHT_MOTOR_REVERSE_PIN = 9; //TODO: change me to the right one
 // Place all MegaMoto Enable jumpers on D8 to turn up with HIGH signal
-byte ENABLE_PIN = 8; //TODO: change me to the right one
+const byte ENABLE_PIN = 8; //TODO: change me to the right one
 
 void setup()
 {
   Serial.begin(9600);
   pinMode(PinA, INPUT_PULLUP);
   pinMode(PinB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(PinA), INCRE, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PinA), INCRE, RISING);
 
   pinMode(right_PinA, INPUT_PULLUP);
   pinMode(right_PinB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(right_PinA), right_INCRE, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(right_PinA), right_INCRE, RISING);
 
   pinMode(ENABLE_PIN,OUTPUT);
   digitalWrite(ENABLE_PIN,HIGH);
@@ -45,11 +45,9 @@ void loop()
     Serial.print(time);
     Serial.print("  \t  l ");
     Serial.print(val);
-    Serial.print(" rpm");
 
     Serial.print("  \t  r ");
     Serial.print(right_encval);
-    Serial.println(" rpm");
     val=0;
     right_encval = 0;
     analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
