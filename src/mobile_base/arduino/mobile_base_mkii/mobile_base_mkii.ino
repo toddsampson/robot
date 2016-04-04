@@ -6,18 +6,21 @@
 #include <geometry_msgs/Vector3Stamped.h>
 #include <sensor_msgs/Range.h>
 #include <stdio.h>
-char str[80];
-char str_temp[80];
 
 #define SONAR_PERSONAL_SPACE 15
-#define MOTOR_INTERVAL 50
-#define MOVEMENT_TIMEOUT 200
+#define MOTOR_INTERVAL 100
+#define MOVEMENT_TIMEOUT 255
 #define turnSpeedMin 145
 #define turnSpeedMax 200
 #define moveSpeedMin 145
 #define moveSpeedStart 165
 #define moveSpeedMax 255
 #define moveBackSpeedMax 255
+
+float wheelDiameter = 20.32; // In cm (8 in)
+byte wheelSeparation = 48.26; // In cm (19 in)
+int encoderTicks = 1680; // Per rotation
+byte gearRatio =  1; //(10:28)
 
 // sonar pins
 byte sl_vcc = 2; //TODO: change me to the right one
@@ -50,27 +53,17 @@ float currX = 0.0;
 float currZ = 0.0;
 float goalX = 0.0;
 float goalZ = 0.0;
-boolean running = false;
 boolean cb = false;
 boolean negateOtherEnc = false;
 byte currSpeed = 0;
-byte leftHeading = 0; //1 forward, 2 backward
-byte rightHeading = 0; //1 forward, 2 backward
 byte forwardBlocked = 0; //0 unblocked, 1 blocked
 unsigned long lastMssgTime = 0;
-float wheelDiameter = 20.32; // In cm (8 in)
-byte wheelSeparation = 48.26; // In cm (19 in)
-int encoderTicks = 1680; // Per rotation
-byte gearRatio =  1; //(10:28)
-unsigned long lastMilli = 0;
 long currCoder0 = 0;
 long currCoder1 = 0;
 long prevCoder0 = 0;
 long prevCoder1 = 0;
 long totalCoder0 = 0;
 long totalCoder1 = 0;
-long totalDiffCnt = 0;
-long totalDiffs = 0;
 
 ros::NodeHandle  nh;
 std_msgs::String debug_msg;
@@ -112,10 +105,7 @@ int nextSpeed(int minSpeed, int maxSpeed){
 void moveForward(){
   debug_msg.data = "MOVING FORWARD";
   Debug.publish(&debug_msg);
-  running = true;
   negateOtherEnc = false;
-  leftHeading = 1;
-  rightHeading = 1;
   currSpeed = nextSpeed(moveSpeedStart, moveSpeedMax);
   analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
   analogWrite(LEFT_MOTOR_REVERSE_PIN, 0); 
@@ -126,10 +116,7 @@ void moveForward(){
 void moveBackward(){
   debug_msg.data = "MOVING BACKWARD";
   Debug.publish(&debug_msg);
-  running = true;
   negateOtherEnc = false;
-  leftHeading = 2;
-  rightHeading = 2;
   currSpeed = nextSpeed(moveSpeedStart, moveBackSpeedMax);
   analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
   analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
@@ -140,10 +127,7 @@ void moveBackward(){
 void turnLeft(){
   debug_msg.data = "TURN LEFT";
   Debug.publish(&debug_msg);
-  running = true;
   negateOtherEnc = true;
-  leftHeading = 2;
-  rightHeading = 1;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
   analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
   analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
@@ -154,10 +138,7 @@ void turnLeft(){
 void turnRight(){
   debug_msg.data = "TURN RIGHT";
   Debug.publish(&debug_msg);
-  running = true;
   negateOtherEnc = true;
-  leftHeading = 1;
-  rightHeading = 2;
   currSpeed = nextSpeed(turnSpeedMin, turnSpeedMax);
   analogWrite(RIGHT_MOTOR_FORWARD_PIN, 0);
   analogWrite(LEFT_MOTOR_REVERSE_PIN, 0);
@@ -172,43 +153,11 @@ void stopMovement(){
   analogWrite(LEFT_MOTOR_FORWARD_PIN, 0);
   analogWrite(RIGHT_MOTOR_REVERSE_PIN, 0);
   analogWrite(LEFT_MOTOR_REVERSE_PIN, 0); 
-  running = false;
   currX = 0;
   currZ = 0;
   goalX = 0;
   goalZ = 0;
   currSpeed = 0;
-  leftHeading = 0;
-  rightHeading = 0;
-}
-
-
-boolean movingForward(){
-  if(leftHeading == 1 && rightHeading == 1){
-    return true;
-  }
-  return false;
-}
-
-boolean movingBackward(){
-  if(leftHeading == 2 && rightHeading == 2){
-    return true;
-  }
-  return false;
-}
-
-boolean turningLeft(){
-  if(leftHeading == 2 && rightHeading == 1){
-    return true;
-  }
-  return false;
-}
-
-boolean turningRight(){
-  if(leftHeading == 1 && rightHeading == 2){
-    return true;
-  }
-  return false;
 }
 
 void leftEncCb(){
@@ -366,10 +315,10 @@ void debugOdom(double totalCoder0, double totalCoder1, long currCoder0, long cur
   Odompub.publish(&twist_msg);
 }
 
-void publishOdom(double vel_lx, double vel_az, unsigned long time){
+void publishOdom(double vel_l, double vel_r, unsigned long time){
   rpm_msg.header.stamp = nh.now();
-  rpm_msg.vector.x = vel_lx;
-  rpm_msg.vector.y = vel_az;
+  rpm_msg.vector.x = vel_l;
+  rpm_msg.vector.y = vel_r;
   rpm_msg.vector.z = double(time)/1000;
   rpm_pub.publish(&rpm_msg);
   nh.spinOnce(); 
@@ -385,8 +334,8 @@ double getOtherEncVal(double left_val){
 void handleOdometry(unsigned long time){
   debug_msg.data = "HANDLE ODOM";
   Debug.publish(&debug_msg); 
-  double vel_lx = 0; // odom linear x velocity
-  double vel_az = 0; // odom angular z velocity
+  double vel_l = 0; // odom linear x velocity
+  double vel_r = 0; // odom angular z velocity
   totalCoder0 = left_encval;
   totalCoder1 = getOtherEncVal(totalCoder0);
   currCoder0 = totalCoder0 - prevCoder0;
@@ -396,11 +345,11 @@ void handleOdometry(unsigned long time){
   double elapsed = time/(double)1000;
   double tickRatio0 = (double)currCoder0/encoderTicks;
   double tickRatio1 = (double)currCoder1/encoderTicks;
-  vel_lx = double((currCoder0)*60*1000)/double(time*encoderTicks*gearRatio);
-  vel_az = double((currCoder1)*60*1000)/double(time*encoderTicks*gearRatio);
+  vel_l = double((currCoder0)*60*1000)/double(time*encoderTicks*gearRatio);
+  vel_r = double((currCoder1)*60*1000)/double(time*encoderTicks*gearRatio);
 
-  debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, vel_lx, vel_az);
-  publishOdom(vel_lx, vel_az, time);
+  debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, vel_l, vel_r);
+  publishOdom(vel_l, vel_r, time);
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", messageCb);
@@ -454,7 +403,7 @@ void loop(){
   unsigned long time = millis();
   nh.spinOnce();
 
-  if(lastMilli - motorTimer > MOTOR_INTERVAL){
+  if(time - motorTimer > MOTOR_INTERVAL){
     debug_msg.data = "LOOP INTERVAL";
     Debug.publish(&debug_msg); 
     handleOdometry(time-motorTimer); //TODO turn odom back on
@@ -462,8 +411,6 @@ void loop(){
     controlMotors();
     motorTimer = time;
   }
-
-  lastMilli = time;
   delay(1);
 }
 
