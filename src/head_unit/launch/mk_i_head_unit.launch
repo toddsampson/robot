@@ -1,0 +1,71 @@
+<launch>
+
+   <!-- <node name="dynparam" pkg="dynamic_reconfigure" type="dynparam" args="set /imu data_skip 9"/> -->
+
+
+   <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
+
+   <node name="odom_v_throttler" type="throttle" pkg="topic_tools" args="messages /odom_visual 3 /odom_v_throttled"/>
+
+   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+
+      <param name="frequency" value="10"/>
+
+      <param name="sensor_timeout" value="0.2"/>
+
+      <param name="two_d_mode" value="true"/>
+      <!-- <remap from="odometry/filtered" to="/robot_localization/odom_combined"/> -->
+
+      <param name="odom_frame" value="odom"/>
+      <param name="base_link_frame" value="base_link"/>
+      <param name="world_frame" value="odom"/>
+
+      <param name="transform_time_offset" value="0.0"/>
+
+      <param name="odom0" value="odom"/>
+<!--
+      <param name="odom1" value="odom_v_throttled"/>
+-->
+      <param name="imu0" value="imu_throttled"/>
+
+      <rosparam param="odom0_config">[true, true, false,
+                                      false, false, true,
+                                      true,  true, false,
+                                      false, false, true,
+                                      false, false, false]</rosparam>
+<!--
+      <rosparam param="odom1_config">[true, true, false,
+                                      false, false, false,
+                                      true,  false, false,
+                                      false, false, false,
+                                      false, false, false]</rosparam>
+-->
+      <rosparam param="imu0_config">[true, true, false,
+                                     false,  false,  true,
+                                     false, false, false,
+                                     false,  false,  false,
+                                     false,  false,  false]</rosparam>
+
+      <param name="odom0_differential" value="false"/>
+<!--
+      <param name="odom1_differential" value="false"/>
+
+-->
+      <param name="imu0_differential" value="true"/>
+
+<!--
+      <param name="odom0_relative" value="false"/>
+      <param name="odom1_relative" value="true"/>
+-->
+
+<!--
+      <param name="imu0_relative" value="true"/>
+-->
+
+      <param name="imu0_remove_gravitational_acceleration" value="true"/>
+      <param name="print_diagnostics" value="true"/>
+
+    </node>
+
+</launch>
+
