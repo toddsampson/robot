@@ -1,5 +1,24 @@
 <launch>
 
+   <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+     <arg name="publish_tf" value="true" />
+   </include>
+
+   <group ns="head_unit">
+     <node pkg="nodelet" type="nodelet" name="data_throttle" args="load rtabmap_ros/data_throttle camera_nodelet_manager" output="screen">
+       <param name="rate" type="double" value="$(arg rate)"/>
+       <param name="decimation" type="int" value="$(arg decimation)"/>
+
+       <remap from="kinect2/sd/image_color_rect"       to="rgb/image_rect_color"/>
+       <remap from="kinect2/sd/image_depth"     to="depth_registered/image_raw"/>
+       <remap from="kinect2/sd/camera_info" to="rgb/camera_info"/>
+
+       <remap from="rgb/image_out"       to="data_throttled_image"/>
+       <remap from="depth/image_out"     to="data_throttled_image_depth"/>
+       <remap from="rgb/camera_info_out" to="data_throttled_camera_info"/>
+     </node>
+   </group>    
+
    <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
 
    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
@@ -28,13 +47,14 @@
 
       <param name="odom0_differential" value="false"/>
       <param name="imu0_differential" value="true"/>
-<!--
       <param name="odom0_relative" value="false"/>
       <param name="imu0_relative" value="true"/>
--->
       <param name="imu0_remove_gravitational_acceleration" value="true"/>
       <param name="print_diagnostics" value="true"/>
     </node>
+
+  
+
 
   <!-- Kinect cloud to laser scan -->
 <!--
