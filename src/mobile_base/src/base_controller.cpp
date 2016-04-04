@@ -91,7 +91,7 @@ int main(int argc, char** argv){
   double angular_scale_positive = 1.0;
   double angular_scale_negative = 1.0;
   double angular_scale_accel = 0.0;
-  double alpha = 0.5;
+  double alpha = 1.0;
 
   ros::Rate r(rate);
   while(n.ok()){
