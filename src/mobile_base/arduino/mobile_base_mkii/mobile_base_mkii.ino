@@ -59,11 +59,8 @@ byte currSpeed = 0;
 byte forwardBlocked = 0; //0 unblocked, 1 blocked
 unsigned long lastMssgTime = 0;
 long currCoder0 = 0;
-long currCoder1 = 0;
 long prevCoder0 = 0;
-long prevCoder1 = 0;
 long totalCoder0 = 0;
-long totalCoder1 = 0;
 
 ros::NodeHandle  nh;
 std_msgs::String debug_msg;
@@ -337,18 +334,14 @@ void handleOdometry(unsigned long time){
   double vel_l = 0; // odom linear x velocity
   double vel_r = 0; // odom angular z velocity
   totalCoder0 = left_encval;
-  totalCoder1 = getOtherEncVal(totalCoder0);
   currCoder0 = totalCoder0 - prevCoder0;
-  currCoder1 = totalCoder1 - prevCoder1;
   prevCoder0 = totalCoder0;
-  prevCoder1 = totalCoder1;
   double elapsed = time/(double)1000;
   double tickRatio0 = (double)currCoder0/encoderTicks;
-  double tickRatio1 = (double)currCoder1/encoderTicks;
   vel_l = double((currCoder0)*60*1000)/double(time*encoderTicks*gearRatio);
-  vel_r = double((currCoder1)*60*1000)/double(time*encoderTicks*gearRatio);
-
-  debugOdom(tickRatio0, tickRatio1, currCoder0, currCoder1, vel_l, vel_r);
+  vel_r = getOtherEncVal(vel_l);
+  
+  debugOdom(tickRatio0, 0, currCoder0, 0, vel_l, vel_r);
   publishOdom(vel_l, vel_r, time);
 }
 
