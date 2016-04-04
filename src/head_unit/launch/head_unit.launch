@@ -1,45 +1,25 @@
 <launch>
 
-   <!-- <node name="dynparam" pkg="dynamic_reconfigure" type="dynparam" args="set /imu data_skip 9"/> -->
-
-
    <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
 
-   <node name="odom_v_throttler" type="throttle" pkg="topic_tools" args="messages /odom_visual 3 /odom_v_throttled"/>
-
    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
-
       <param name="frequency" value="10"/>
-
       <param name="sensor_timeout" value="0.2"/>
-
       <param name="two_d_mode" value="true"/>
-      <!-- <remap from="odometry/filtered" to="/robot_localization/odom_combined"/> -->
+      <remap from="odometry/filtered" to="/robot_localization/odom_combined"/>
 
       <param name="odom_frame" value="odom"/>
       <param name="base_link_frame" value="base_link"/>
       <param name="world_frame" value="odom"/>
-
       <param name="transform_time_offset" value="0.0"/>
 
       <param name="odom0" value="odom"/>
-<!--
-      <param name="odom1" value="odom_v_throttled"/>
--->
       <param name="imu0" value="imu_throttled"/>
-
       <rosparam param="odom0_config">[true, true, false,
                                       false, false, true,
                                       true,  true, false,
                                       false, false, true,
                                       false, false, false]</rosparam>
-<!--
-      <rosparam param="odom1_config">[true, true, false,
-                                      false, false, false,
-                                      true,  false, false,
-                                      false, false, false,
-                                      false, false, false]</rosparam>
--->
       <rosparam param="imu0_config">[true, true, false,
                                      false,  false,  true,
                                      false, false, false,
@@ -47,25 +27,55 @@
                                      false,  false,  false]</rosparam>
 
       <param name="odom0_differential" value="false"/>
-<!--
-      <param name="odom1_differential" value="false"/>
-
--->
       <param name="imu0_differential" value="true"/>
-
 <!--
       <param name="odom0_relative" value="false"/>
-      <param name="odom1_relative" value="true"/>
--->
-
-<!--
       <param name="imu0_relative" value="true"/>
 -->
-
       <param name="imu0_remove_gravitational_acceleration" value="true"/>
       <param name="print_diagnostics" value="true"/>
-
     </node>
 
+  <!-- Kinect cloud to laser scan -->
+<!--
+    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+      <remap from="image"     to="/camera/depth_registered/image_raw"/>
+      <remap from="camera_info" to="/camera/depth_registered/camera_info"/>
+      <remap from="scan" to="/kinect_scan"/>
+      <param name="range_max" type="double" value="4"/>
+    </node>
+-->
+  <!-- SLAM -->
+<!--
+  <group ns="rtabmap">
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+          <param name="frame_id" type="string" value="base_footprint"/>
+
+          <param name="subscribe_depth" type="bool" value="true"/>
+          <param name="subscribe_laserScan" type="bool" value="true"/>
+
+          <remap from="odom" to="/base_controller/odom"/>
+          <remap from="scan" to="/kinect_scan"/>
+
+          <remap from="rgb/image" to="/camera/rgb/image_rect_color"/>
+          <remap from="depth/image" to="/camera/depth_registered/image_raw"/>
+          <remap from="rgb/camera_info" to="/camera/rgb/camera_info"/>
+
+          <param name="queue_size" type="int" value="10"/>
+
+          <!-- RTAB-Map's parameters -->
+          <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
+          <param name="Kp/MaxDepth" type="string" value="4.0"/>
+          <param name="LccIcp/Type" type="string" value="2"/>
+          <param name="LccIcp2/CorrespondenceRatio" type="string" value="0.5"/>
+          <param name="LccBow/MinInliers" type="string" value="3"/>
+          <param name="LccBow/InlierDistance" type="string" value="0.05"/>
+          <param name="RGBD/AngularUpdate" type="string" value="0.01"/>
+          <param name="RGBD/LinearUpdate" type="string" value="0.01"/>
+          <param name="Rtabmap/TimeThr" type="string" value="700"/>
+          <param name="Mem/RehearsalSimilarity" type="string" value="0.45"/>
+    </node>
+  </group>
+-->
 </launch>
 
