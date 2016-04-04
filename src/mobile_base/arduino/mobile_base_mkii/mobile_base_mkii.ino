@@ -8,8 +8,8 @@
 #include <stdio.h>
 
 #define SONAR_PERSONAL_SPACE 15
-#define MOTOR_INTERVAL 60000
-#define MOVEMENT_TIMEOUT 125000
+#define MOTOR_INTERVAL 100
+#define MOVEMENT_TIMEOUT 255
 #define turnSpeedMin 145
 #define turnSpeedMax 200
 #define moveSpeedMin 145
