@@ -2,14 +2,14 @@
   
    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
      <arg name="publish_tf" value="true" />
-<!--     <arg name="fps_limit" value="5" /> -->
+     <arg name="fps_limit" value="5" />
    </include>
 
   <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
       <remap from="image"     to="/kinect2/sd/image_depth_rect"/>
       <remap from="camera_info" to="/kinect2/sd/camera_info"/>
       <remap from="scan" to="/kinect_scan"/>
-      <param name="range_max" type="double" value="4"/>
+      <param name="range_max" type="double" value="8"/>
     </node>
 
    <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
