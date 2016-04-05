@@ -17,22 +17,48 @@
     <joint name="${prefix}_kinect2_in_joint" type="fixed">
       <origin rpy="${rpy}" xyz="${xyz}" />
       <parent link="${parent}"/>
-      <child link="${prefix}_kinect2_rgb_optical_frame"/>
+      <child link="kinect2_link"/>
     </joint>
 
-    <link name="${prefix}_kinect2_rgb_optical_frame">
+   <link name="kinect2_link">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <!-- these meshes were exported in mm, so scale back to m -->
           <mesh filename="package://head_unit/urdf/meshes/kinect2_origin_on_rgb_optical_frame.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="Kinect2Grey"/>
       </visual>
     </link>
 
+    <joint name="kinect2_link_to_camera_depth_frame" type="fixed">
+      <origin rpy="${pi/2} ${-pi/2} 0" xyz="0 0 0" />
+      <parent link="kinect2_link"/>
+      <child link="camera_depth_frame"/>
+    </joint>
+
+   <link name="camera_depth_frame">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+
+<!--
+    <link name="kinect2_rgb_optical_frame">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://head_unit/urdf/meshes/kinect2_origin_on_rgb_optical_frame.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="Kinect2Grey"/>
+      </visual>
+    </link>
+-->
   </xacro:macro>
 
-  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="0 0 ${pi/2}" xyz="0 0.108 0.07" />
+  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="${-pi/2} 0 ${-pi/2}" xyz="0.04 -0.098 0.035" />
+ <!--  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="0 0 ${pi/2}" xyz="0 0.108 0.07" /> -->
 
 </robot>

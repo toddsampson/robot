@@ -1,23 +1,16 @@
 <launch>
-
+  
    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
      <arg name="publish_tf" value="true" />
+<!--     <arg name="fps_limit" value="5" /> -->
    </include>
 
-   <group ns="head_unit">
-     <node pkg="nodelet" type="nodelet" name="data_throttle" args="load rtabmap_ros/data_throttle camera_nodelet_manager" output="screen">
-       <param name="rate" type="double" value="$(arg rate)"/>
-       <param name="decimation" type="int" value="$(arg decimation)"/>
-
-       <remap from="kinect2/sd/image_color_rect"       to="rgb/image_rect_color"/>
-       <remap from="kinect2/sd/image_depth"     to="depth_registered/image_raw"/>
-       <remap from="kinect2/sd/camera_info" to="rgb/camera_info"/>
-
-       <remap from="rgb/image_out"       to="data_throttled_image"/>
-       <remap from="depth/image_out"     to="data_throttled_image_depth"/>
-       <remap from="rgb/camera_info_out" to="data_throttled_camera_info"/>
-     </node>
-   </group>    
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+      <remap from="image"     to="/kinect2/sd/image_depth_rect"/>
+      <remap from="camera_info" to="/kinect2/sd/camera_info"/>
+      <remap from="scan" to="/kinect_scan"/>
+      <param name="range_max" type="double" value="4"/>
+    </node>
 
    <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
 
@@ -50,7 +43,7 @@
       <param name="odom0_relative" value="false"/>
       <param name="imu0_relative" value="true"/>
       <param name="imu0_remove_gravitational_acceleration" value="true"/>
-      <param name="print_diagnostics" value="true"/>
+<!--      <param name="print_diagnostics" value="true"/> -->
     </node>
 
 </launch>
