@@ -28,7 +28,7 @@
 #define  ENABLE_PIN 8
 
 #define SONAR_PERSONAL_SPACE 15
-#define MOTOR_INTERVAL 100 // running motors and reporting rpm at 10 hz
+#define MOTOR_INTERVAL 50 // running motors and reporting rpm at 20 hz
 #define MOVEMENT_TIMEOUT 255
 #define TURN_SPEED_MIN 145
 #define TURN_SPEED_MAX 200
