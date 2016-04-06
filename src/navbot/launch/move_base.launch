@@ -1,0 +1,13 @@
+<launch>
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find navbot)/maps/map3.yaml" />
+
+  <node pkg="amcl" type="amcl" name="amcl" args="scan:=kinect_scan" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find navbot)/configs/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find navbot)/configs/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find navbot)/configs/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find navbot)/configs/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find navbot)/configs/base_local_planner_params.yaml" command="load" />
+  </node>
+</launch>
