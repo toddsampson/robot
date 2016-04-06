@@ -360,5 +360,4 @@ void loop(){
     controlMotors();
     motorTimer = time;
   }
-  delay(1); // TODO: should we comment this out?
 }
