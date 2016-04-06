@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="map_server" type="map_server" name="map_server" args="$(find navbot)/maps/map3.yaml" />
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find navbot)/maps/map4.yaml" />
 
   <node pkg="amcl" type="amcl" name="amcl" args="scan:=kinect_scan" />
 
