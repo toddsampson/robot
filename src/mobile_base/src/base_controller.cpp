@@ -85,7 +85,7 @@ int main(int argc, char** argv){
   ros::Duration d(1.0);
 
   bool publish_tf = true;
-  double rate = 20.0; //this needs to match the hz used to output rpm from the bot
+  double rate = 25.0; //this needs to match the hz used to output rpm from the bot
   double linear_scale_positive = 0.99;
   double linear_scale_negative = 0.99;
   double angular_scale_positive = 1.0;
