@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="project_tango">
+  <xacro:property name="pi" value="3.14159265359" />
+
+  <link name="phone">
+    <visual>
+      <geometry>
+        <mesh filename="package://head_unit/urdf/tango_yellowstone.dae"
+          scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+  <link name="unity">
+    <visual>
+      <geometry>
+        <box size="0.0001 0.0001 0.0001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 .5 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="unity_to_phone" type="fixed">
+    <parent link="unity" />
+    <child link="phone" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <joint name="head_unit_to_unity" type="fixed">
+    <parent link="head_unit" />
+    <child link="unity" />
+    <origin xyz="0 -0.1 -0.1" rpy="1.22 0 ${-pi/2}" />
+  </joint>
+</robot>

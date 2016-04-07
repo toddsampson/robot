@@ -79,5 +79,6 @@
 
 
   <xacro:include filename="../../head_unit/urdf/kinect2.xacro" />
+  <xacro:include filename="../../head_unit/urdf/project_tango.xacro" />
 
 </robot>
