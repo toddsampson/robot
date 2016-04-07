@@ -11,7 +11,7 @@
       <remap from="scan" to="/kinect_scan"/>
       <param name="range_max" type="double" value="8"/>
     </node>
-
+<!--
    <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
 
    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
@@ -43,8 +43,8 @@
       <param name="odom0_relative" value="false"/>
       <param name="imu0_relative" value="true"/>
       <param name="imu0_remove_gravitational_acceleration" value="true"/>
-<!--      <param name="print_diagnostics" value="true"/> -->
     </node>
+-->
 
 </launch>
 

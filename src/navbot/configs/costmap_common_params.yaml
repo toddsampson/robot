@@ -8,4 +8,4 @@ observation_sources: laser_scan_sensor point_cloud_sensor
 
 laser_scan_sensor: {sensor_frame: camera_depth_frame, data_type: LaserScan, topic: kinect_scan, marking: true, clearing: true}
 
-point_cloud_sensor: {sensor_frame: kinect2_ir_optical_frame, data_type: PointCloud, topic: kinect2/sd/points, marking: true, clearing: true}
+point_cloud_sensor: {sensor_frame: kinect2_ir_optical_frame, data_type: PointCloud, topic: kinect2/sd/points, marking: true, clearing: false}
