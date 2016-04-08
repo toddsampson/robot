@@ -4,91 +4,47 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="blah" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!--  <link name="base_link">
-    <visual>
-      <geometry>
-        <box size="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="black">
-        <color rgba="0 0 0 1" />
-      </material>
-    </visual>
-  </link> -->
   <link name="base_link">
     <visual>
       <origin rpy="0 0 1.5707963268" xyz="0 0 0.12065"/>
       <geometry>
-        <mesh filename="package://mobile_base/urdf/meshes/mobile_base_mkii.stl" scale="1 1 1.18"/>
+        <mesh filename="package://mobile_base/urdf/meshes/mobile_base_mkii.stl" scale="1 1 1"/>
       </geometry>
       <material name="black">
         <color rgb="0 0 0"/>
       </material>
     </visual>
   </link>
-  <link name="base_footprint">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.6096 0.6096 0.001"/>
-      </geometry>
-      <material name="black">
-        <color rgb="0 0 0"/>
-      </material>
-    </visual>
-  </link>
-  <joint name="base_frame_base_link" type="fixed">
-    <parent link="base_link"/>
-    <child link="base_footprint"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.12065"/>
-  </joint>
-  i
-  
   <link name="head_unit">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.0677 0.1120 0.0200"/>
+        <box size="0.1268 0.1525 0.0095"/>
       </geometry>
       <material name="grey">
-        <color rgba="0.1 0.1 .5 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
   </link>
   <joint name="base_link_to_head_unit" type="fixed">
     <parent link="base_link"/>
     <child link="head_unit"/>
-    <origin rpy="0 0 0" xyz="0 0 0.45"/>
+    <origin rpy="0 0 0" xyz="0 0 0.2553"/>
     <!-- fix height -->
-  </joint>
-  <link name="head_mount">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.1268 0.1525 0.0096"/>
-      </geometry>
-      <material name="silver">
-        <color rgba="129 129 129 1"/>
-      </material>
-    </visual>
-  </link>
-  <joint name="head_unit_to_head_mount" type="fixed">
-    <parent link="head_unit"/>
-    <child link="head_mount"/>
-    <origin rpy="0 0 0 " xyz="0 0 -0.2159"/>
   </joint>
   <link name="t-slot-rod">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-rod.stl" scale="1 1 0.2"/>
+        <mesh filename="package://head_unit/urdf/meshes/t-slot-rod.stl" scale="1 1 0.168"/>
       </geometry>
-      <material name="silver"/>
+      <material name="grey"/>
     </visual>
   </link>
   <joint name="head_unit_to_t-slot-rod" type="fixed">
     <parent link="head_unit"/>
     <child link="t-slot-rod"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.1065"/>
+    <origin rpy="0 0 0" xyz="0 0 0.10795"/>
   </joint>
   <link name="t-slot-bracket-bottom-left">
     <visual>
@@ -96,13 +52,13 @@
       <geometry>
         <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
       </geometry>
-      <material name="silver"/>
+      <material name="grey"/>
     </visual>
   </link>
   <joint name="head_unit_to_t-slot-bracket-bottom-left" type="fixed">
     <parent link="head_unit"/>
     <child link="t-slot-bracket-bottom-left"/>
-    <origin rpy="1.5707963268 0 1.5707963268" xyz="0 0.0191 -0.135"/>
+    <origin rpy="1.5707963268 0 1.5707963268" xyz="0 0.0191 0.004"/>
   </joint>
   <link name="t-slot-bracket-bottom-right">
     <visual>
@@ -110,13 +66,13 @@
       <geometry>
         <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
       </geometry>
-      <material name="silver"/>
+      <material name="grey"/>
     </visual>
   </link>
   <joint name="head_unit_to_t-slot-bracket-bottom-right" type="fixed">
     <parent link="head_unit"/>
     <child link="t-slot-bracket-bottom-right"/>
-    <origin rpy="1.5707963268 0 -1.5707963268" xyz="0 -0.0191 -0.135"/>
+    <origin rpy="1.5707963268 0 -1.5707963268" xyz="0 -0.0191 0.004"/>
   </joint>
   <link name="t-slot-bracket-top-left">
     <visual>
@@ -124,13 +80,13 @@
       <geometry>
         <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
       </geometry>
-      <material name="silver"/>
+      <material name="grey"/>
     </visual>
   </link>
   <joint name="head_unit_to_t-slot-bracket-top-left" type="fixed">
     <parent link="head_unit"/>
     <child link="t-slot-bracket-top-left"/>
-    <origin rpy="-1.5707963268 0 1.5707963268" xyz="0 0.0191 -0.01"/>
+    <origin rpy="-1.5707963268 0 1.5707963268" xyz="0 0.0191 0.211"/>
   </joint>
   <link name="t-slot-bracket-top-right">
     <visual>
@@ -138,20 +94,34 @@
       <geometry>
         <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
       </geometry>
-      <material name="silver"/>
+      <material name="grey"/>
     </visual>
   </link>
   <joint name="head_unit_to_t-slot-bracket-top-right" type="fixed">
     <parent link="head_unit"/>
     <child link="t-slot-bracket-top-right"/>
-    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0 -0.0191 -0.01"/>
+    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0 -0.0191 0.211"/>
+  </joint>
+  <link name="kinect_mount">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.0677 0.1120 0.0200"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <joint name="head_unit_to_kinect_mount" type="fixed">
+    <parent link="head_unit"/>
+    <child link="kinect_mount"/>
+    <origin rpy="0 0 0 " xyz="-0.013 0 0.2215"/>
   </joint>
   <material name="Kinect2Grey">
     <color rgba="0.15 0.15 0.15 1.0"/>
   </material>
   <!-- Joint connecting the parent to our frame_in -->
   <joint name="head_unit_kinect2_in_joint" type="fixed">
-    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0.04 -0.098 0.035"/>
+    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0.017 -0.098 0.2573"/>
     <parent link="head_unit"/>
     <child link="kinect2_link"/>
   </joint>
@@ -217,7 +187,7 @@
   <joint name="head_unit_to_unity" type="fixed">
     <parent link="head_unit"/>
     <child link="unity"/>
-    <origin rpy="1.22 0 -1.5707963268" xyz="-0.15 0.1 -0.185"/>
+    <origin rpy="1.22 0 -1.5707963268" xyz="0.0875 0.1 0.01"/>
   </joint>
 </robot>
 
