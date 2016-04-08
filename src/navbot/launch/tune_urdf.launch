@@ -2,4 +2,5 @@
   <param name="robot_description" textfile="$(find navbot)/urdf/navbot_mkii.urdf" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publister" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d tmp.rviz" />
 </launch>

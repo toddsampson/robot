@@ -58,7 +58,7 @@
 -->
   </xacro:macro>
 
-  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="${-pi/2} 0 ${-pi/2}" xyz="0.04 -0.098 0.035" />
+  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="${-pi/2} 0 ${-pi/2}" xyz="0.017 -0.098 0.2573" />
  <!--  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="0 0 ${pi/2}" xyz="0 0.108 0.07" /> -->
 
 </robot>
