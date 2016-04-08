@@ -31,6 +31,6 @@
   <joint name="head_unit_to_unity" type="fixed">
     <parent link="head_unit" />
     <child link="unity" />
-    <origin xyz="-0.15 0.1 -0.185" rpy="1.22 0 ${-pi/2}" />
+    <origin xyz="0.0875 0.1 0.01" rpy="1.22 0 ${-pi/2}" />
   </joint>
 </robot>

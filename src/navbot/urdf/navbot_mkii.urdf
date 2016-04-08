@@ -19,7 +19,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.1268 0.1525 0.0096"/>
+        <box size="0.1268 0.1525 0.0095"/>
       </geometry>
       <material name="grey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -29,7 +29,7 @@
   <joint name="base_link_to_head_unit" type="fixed">
     <parent link="base_link"/>
     <child link="head_unit"/>
-    <origin rpy="0 0 0" xyz="0 0 0.2509"/>
+    <origin rpy="0 0 0" xyz="0 0 0.2553"/>
     <!-- fix height -->
   </joint>
   <link name="t-slot-rod">
@@ -187,7 +187,7 @@
   <joint name="head_unit_to_unity" type="fixed">
     <parent link="head_unit"/>
     <child link="unity"/>
-    <origin rpy="1.22 0 -1.5707963268" xyz="-0.15 0.1 -0.185"/>
+    <origin rpy="1.22 0 -1.5707963268" xyz="0.0875 0.1 0.01"/>
   </joint>
 </robot>
 

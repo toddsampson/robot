@@ -6,7 +6,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="0.1268 0.1525 0.0096" />
+        <box size="0.1268 0.1525 0.0095" />
       </geometry>
       <material name="grey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -17,7 +17,7 @@
   <joint name="base_link_to_head_unit" type="fixed">
     <parent link="base_link" />
     <child link="head_unit" />
-    <origin xyz="0 0 ${platform_h + 0.0096}" rpy="0 0 0" /> <!-- fix height -->
+    <origin xyz="0 0 ${platform_h + 0.014}" rpy="0 0 0" /> <!-- fix height -->
   </joint>
 
   <link name="t-slot-rod">
