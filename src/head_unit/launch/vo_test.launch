@@ -4,15 +4,15 @@
      <arg name="publish_tf" value="true" />
      <arg name="fps_limit" value="5" />
    </include>
-
+<!--
    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
      <remap from="image"     to="/kinect2/sd/image_depth_rect"/>
      <remap from="camera_info" to="/kinect2/sd/camera_info"/>
      <remap from="scan" to="/kinect_scan"/>
      <param name="range_max" type="double" value="8"/>
    </node>
-
-   <node name="rgbd_odometry" pkg="rgbd_odometry" type="rgbd_odometry">
+-->
+   <node name="rgbd_odometry" pkg="rtabmap_ros" type="rgbd_odometry">
      <param name="odom_frame_id" value="vo" />
    </node>
 
@@ -32,18 +32,18 @@
 
      <rosparam param="odom0_config">[true, true, false,
                                       false, false, true,
-                                      false,  false, false,
-                                      false, false, true,
+                                      true,  false, false,
+                                      false, false, false,
                                       false, false, false]</rosparam>
 
      <rosparam param="odom1_config">[true, true, false,
-                                     false,  false,  true,
-                                     false, false, false,
-                                     false,  false,  true,
-                                     true,  false,  false]</rosparam>
+                                     false,  false, true,
+                                     true, false, false,
+                                     false,  false,  false,
+                                     false,  false,  false]</rosparam>
 
-     <param name="odom0_differential" value="true"/>
-     <param name="odom1_differential" value="false"/>
+     <param name="odom0_differential" value="false"/>
+     <param name="odom1_differential" value="true"/>
    </node>
 </launch>
 
