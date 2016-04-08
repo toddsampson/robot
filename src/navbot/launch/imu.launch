@@ -7,7 +7,7 @@
   <param name="robot_description" textfile="$(find navbot)/urdf/navbot_mkii.urdf" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publister" />
-  <include file="$(find mobile_base)/launch/mobile_base.launch" >
+  <include file="$(find mobile_base)/launch/mobile_base_no_odom.launch" >
     <arg name="mobile_base_port" value="$(arg mobile_base_port)" />
   </include>
 

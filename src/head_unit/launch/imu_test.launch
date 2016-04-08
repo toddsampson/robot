@@ -18,9 +18,9 @@
      <param name="two_d_mode" value="true"/>
      <remap from="odometry/filtered" to="/robot_localization/odom_combined"/>
 
-     <param name="odom_frame" value="odom"/>
+     <param name="odom_frame" value="/robot_localization/odom_combined"/>
      <param name="base_link_frame" value="base_link"/>
-     <param name="world_frame" value="odom"/>
+     <param name="world_frame" value="/robot_localization/odom_combined"/>
      <param name="transform_time_offset" value="0.0"/>
 
 <!--     <param name="odom0" value="odom"/> -->
