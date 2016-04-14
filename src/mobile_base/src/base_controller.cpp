@@ -84,14 +84,14 @@ int main(int argc, char** argv){
   char odom[] = "odom";
   ros::Duration d(1.0);
 
-  bool publish_tf = true;
+  bool publish_tf = false;
   double rate = 25.0; //this needs to match the hz used to output rpm from the bot
   double linear_scale_positive = 0.99;
   double linear_scale_negative = 0.99;
   double angular_scale_positive = 1.0;
   double angular_scale_negative = 1.0;
   double angular_scale_accel = 0.0;
-  double alpha = 1.0;
+  double alpha = 0.91785;
 
   ros::Rate r(rate);
   while(n.ok()){

@@ -1,5 +1,4 @@
 <launch>
-  
    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
      <arg name="publish_tf" value="true" />
      <arg name="fps_limit" value="5" />
@@ -11,27 +10,11 @@
       <remap from="scan" to="/kinect_scan"/>
       <param name="range_max" type="double" value="8"/>
     </node>
-
   <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
 
-  <node name="rgbd_odometry" pkg="rgbd_odometry" type="rgbd_odometry">
-    <param name="odom_frame_id" value="odometry" />
-    <param name="publish_tf" value="true" />
-    <param name="tf_prefix" value="visual_odometry" />
+  <node name="rgbd_odometry" pkg="rtabmap_ros" type="rgbd_odometry">
+    <param name="odom_frame_id" value="vo" />
   </node>
-
-<!--
-  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
-    <param name="output_frame" value="/odom_combined"/>
-    <param name="freq" value="30.0"/>
-    <param name="sensor_timeout" value="1.0"/>
-    <param name="odom_used" value="true"/>
-    <param name="imu_used" value="true"/>
-    <param name="vo_used" value="false"/>
-    <param name="debug" value="false"/>
-    <param name="self_diagnose" value="false"/>
-  </node>
--->
 
    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
       <param name="frequency" value="25"/>
@@ -43,10 +26,8 @@
       <param name="base_link_frame" value="base_link"/>
       <param name="world_frame" value="odom"/>
       <param name="transform_time_offset" value="0.0"/>
-
       <param name="odom0" value="odom"/>
       <param name="imu0" value="imu_throttled"/>
-      <param name="odom1" value="visual_odometry/odometry"/>
       <rosparam param="odom0_config">[true, true, false,
                                       false, false, true,
                                       false,  false, false,
@@ -56,27 +37,12 @@
                                      false,  false,  true,
                                      false, false, false,
                                      false,  false,  true,
-                                     true,  false,  false]</rosparam>
-      <rosparam param="odom1_config">[true, true, false, 
-                                      false, false, true, 
-                                      false, false, false, 
-                                      false, false, false]</rosparam>
-
+                                     true,  false,  false]</rosparam> -->
       <param name="odom0_differential" value="false"/>
       <param name="imu0_differential" value="true"/>
-      <param name="odom1_differential" value="true"/>
 
-      <pram name="odom0_queue_size" value="2"/>
-      <param name="odom1_queue_size" value="1"/>
-      <param name="odom2_queue_size" value="1"/>
-
-      <param name="odom0_pose_rejection_threshold" value="5"/>
-      <param name="odom0_twist_rejection_threshold" value="1"/>
-      <param name="odom1_pose_rejection_threshold" value="5"/>
-      <param name="odom1_twist_rejection_threshold" value="1"/>
-      <param name="odom2_pose_rejection_threshold" value="5"/>
-
-      <param name="imu0_remove_gravitational_acceleration" value="false"/>
+      <param name="odom0_relative" value="false"/>
+      <param name="imu0_relative" value="true"/>
     </node>
 </launch>
 
