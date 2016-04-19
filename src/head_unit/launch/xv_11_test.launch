@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="xv_11_laser_driver" type="neato_laser_publisher" name="neato_laser_publisher">
+    <remap from="port"     to="/dev/ttyACM0"/>
+    <remap from="firmware_version" to="2"/>
+  </node>
+</launch>
+

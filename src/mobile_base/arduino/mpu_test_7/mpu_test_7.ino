@@ -102,9 +102,9 @@ void loop() {
 
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-        float yaw_ang_vel = ypr[0] / (dt_r * 1000);
-        float pitch_ang_vel = ypr[1] / (dt_r * 1000);
-        float roll_ang_vel = ypr[2] / (dt_r * 1000);
+        float yaw_ang_vel = ypr[0] - last_ypr[0]; // / (dt_r * 1000);
+        float pitch_ang_vel = ypr[1] - last_ypr[1]; // / (dt_r * 1000);
+        float roll_ang_vel = ypr[2] - last_ypr[2]; // / (dt_r * 1000);
 
         imu.angular_velocity.x = roll_ang_vel;
         imu.angular_velocity.y = pitch_ang_vel;
