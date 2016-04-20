@@ -7,18 +7,18 @@
 #include <sensor_msgs/Range.h>
 #include <stdio.h>
 
-#define SL_VCC 2 // sonar pins
-#define SL_TRIG 3 //TODO: change me to the right ones
-#define SL_ECHO 4
-#define SL_GND 5
-#define SC_VCC 2
-#define SC_TRIG 3
-#define SC_ECHO 4
-#define SC_GND 5
-#define SR_VCC 2
-#define SR_TRIG 3
-#define SR_ECHO 4
-#define SR_GND 5
+#define SL_TRIG 50 // sonar pins
+#define SL_ECHO 51
+#define SL_VCC 52
+#define SL_GND 53
+#define SC_TRIG 46
+#define SC_ECHO 47
+#define SC_VCC 48
+#define SC_GND 49
+#define SR_TRIG 42
+#define SR_ECHO 43
+#define SR_VCC 44
+#define SR_GND 45
 #define LEFT_PIN_A 20 //encoder pins
 #define LEFT_PIN_B 21
 #define  LEFT_MOTOR_FORWARD_PIN 10 // motor pins
