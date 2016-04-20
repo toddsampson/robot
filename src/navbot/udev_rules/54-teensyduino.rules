@@ -1,2 +1,2 @@
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="16c0", GROUP="dialout"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", GROUP="dialout", SYMLINK+="mobile_base_lidar"
 

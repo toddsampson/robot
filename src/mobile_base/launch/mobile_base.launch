@@ -1,11 +1,21 @@
 <launch>
-  <arg name="mobile_base_port" default="/dev/ttyACM0" />
-
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 
-  <include file="$(find rosserial_server)/launch/serial.launch">
-    <arg name="port" value="$(arg mobile_base_port)" />
+  <!-- Drive system and odom -->
+  <node pkg="rosserial_server" type="serial_node" name="drive" args="_port:=/dev/mobile_base_drive"/>
+
+<!--  <include file="$(find rosserial_server)/launch/serial.launch">
+    <arg name="port" value="/dev/mobile_base_drive" />
   </include>
+-->
+  <!-- IMU -->
+  <node pkg="rosserial_server" type="serial_node" name="imu" args="_port:=/dev/mobile_base_imu"/>
+<!--  <include file="$(find rosserial_server)/launch/serial.launch">
+    <arg name="port" value="/dev/mobile_base_imu" />
+  </include>
+-->
+  <!-- Lidar laser -->
+  <node pkg="xv_11_laser_driver" type="neato_laser_publisher" name="laser" args="_port:=/dev/mobile_base_lidar _firmware_version:=2" />
 
   <node pkg="mobile_base" type="base_controller" name="base_controller" />
 

@@ -15,179 +15,35 @@
       </material>
     </visual>
   </link>
-  <link name="head_unit">
+  <link name="imu_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.1268 0.1525 0.0095"/>
+        <box size="0.0305 0.0203 0.0051"/>
       </geometry>
-      <material name="grey">
-        <color rgba="0.5 0.5 0.5 1"/>
-      </material>
     </visual>
   </link>
-  <joint name="base_link_to_head_unit" type="fixed">
+  <joint name="base_link_to_imu_link" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.0238 0 -0.07065"/>
     <parent link="base_link"/>
-    <child link="head_unit"/>
-    <origin rpy="0 0 0" xyz="0 0 0.2553"/>
-    <!-- fix height -->
+    <child link="imu_link"/>
   </joint>
-  <link name="t-slot-rod">
+  <link name="neato_laser">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-rod.stl" scale="1 1 0.168"/>
+        <cylinder length="0.018" radius="0.04"/>
       </geometry>
-      <material name="grey"/>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
     </visual>
   </link>
-  <joint name="head_unit_to_t-slot-rod" type="fixed">
-    <parent link="head_unit"/>
-    <child link="t-slot-rod"/>
-    <origin rpy="0 0 0" xyz="0 0 0.10795"/>
+  <joint name="base_link_to_neato_laser" type="fixed">
+    <origin rpy="0 0 0" xyz="0.102 0  0.2863"/>
+    <parent link="base_link"/>
+    <child link="neato_laser"/>
   </joint>
-  <link name="t-slot-bracket-bottom-left">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-  </link>
-  <joint name="head_unit_to_t-slot-bracket-bottom-left" type="fixed">
-    <parent link="head_unit"/>
-    <child link="t-slot-bracket-bottom-left"/>
-    <origin rpy="1.5707963268 0 1.5707963268" xyz="0 0.0191 0.004"/>
-  </joint>
-  <link name="t-slot-bracket-bottom-right">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-  </link>
-  <joint name="head_unit_to_t-slot-bracket-bottom-right" type="fixed">
-    <parent link="head_unit"/>
-    <child link="t-slot-bracket-bottom-right"/>
-    <origin rpy="1.5707963268 0 -1.5707963268" xyz="0 -0.0191 0.004"/>
-  </joint>
-  <link name="t-slot-bracket-top-left">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-  </link>
-  <joint name="head_unit_to_t-slot-bracket-top-left" type="fixed">
-    <parent link="head_unit"/>
-    <child link="t-slot-bracket-top-left"/>
-    <origin rpy="-1.5707963268 0 1.5707963268" xyz="0 0.0191 0.211"/>
-  </joint>
-  <link name="t-slot-bracket-top-right">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/t-slot-bracket.stl" scale="1 1 1"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-  </link>
-  <joint name="head_unit_to_t-slot-bracket-top-right" type="fixed">
-    <parent link="head_unit"/>
-    <child link="t-slot-bracket-top-right"/>
-    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0 -0.0191 0.211"/>
-  </joint>
-  <link name="kinect_mount">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.0677 0.1120 0.0200"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-  </link>
-  <joint name="head_unit_to_kinect_mount" type="fixed">
-    <parent link="head_unit"/>
-    <child link="kinect_mount"/>
-    <origin rpy="0 0 0 " xyz="-0.013 0 0.2215"/>
-  </joint>
-  <material name="Kinect2Grey">
-    <color rgba="0.15 0.15 0.15 1.0"/>
-  </material>
-  <!-- Joint connecting the parent to our frame_in -->
-  <joint name="head_unit_kinect2_in_joint" type="fixed">
-    <origin rpy="-1.5707963268 0 -1.5707963268" xyz="0.017 -0.098 0.2573"/>
-    <parent link="head_unit"/>
-    <child link="kinect2_link"/>
-  </joint>
-  <link name="kinect2_link">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/meshes/kinect2_origin_on_rgb_optical_frame.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="Kinect2Grey"/>
-    </visual>
-  </link>
-  <joint name="kinect2_link_to_camera_depth_frame" type="fixed">
-    <origin rpy="1.5707963268 -1.5707963268 0" xyz="0 0 0"/>
-    <parent link="kinect2_link"/>
-    <child link="camera_depth_frame"/>
-  </joint>
-  <link name="camera_depth_frame">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.001 0.001 0.001"/>
-      </geometry>
-    </visual>
-  </link>
-  <!--
-    <link name="kinect2_rgb_optical_frame">
-      <visual>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <geometry>
-          <mesh filename="package://head_unit/urdf/meshes/kinect2_origin_on_rgb_optical_frame.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <material name="Kinect2Grey"/>
-      </visual>
-    </link>
+  <!--  <xacro:include filename="../../head_unit/urdf/head_unit_mkii.xacro" />
 -->
-  <!--  <xacro:kinect2_xacro prefix="head_unit" parent="head_unit" rpy="0 0 ${pi/2}" xyz="0 0.108 0.07" /> -->
-  <link name="phone">
-    <visual>
-      <geometry>
-        <mesh filename="package://head_unit/urdf/tango_yellowstone.dae" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="grey">
-        <color rgba="0.1 0.1 .5 1"/>
-      </material>
-    </visual>
-  </link>
-  <link name="unity">
-    <visual>
-      <geometry>
-        <box size="0.0001 0.0001 0.0001"/>
-      </geometry>
-      <material name="grey">
-        <color rgba="0.1 0.1 .5 1"/>
-      </material>
-    </visual>
-  </link>
-  <joint name="unity_to_phone" type="fixed">
-    <parent link="unity"/>
-    <child link="phone"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-  </joint>
-  <joint name="head_unit_to_unity" type="fixed">
-    <parent link="head_unit"/>
-    <child link="unity"/>
-    <origin rpy="1.22 0 -1.5707963268" xyz="0.0875 0.1 0.01"/>
-  </joint>
 </robot>
 

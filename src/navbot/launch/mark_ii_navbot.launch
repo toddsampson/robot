@@ -1,5 +1,4 @@
 <launch>
-  <arg name="mobile_base_port" default="/dev/ttyACM0" />
   <arg name="rviz" default="false" />
   <arg name="joy" default="false" />
   <arg name="joystick" default="/dev/input/js0" />
@@ -7,10 +6,8 @@
   <param name="robot_description" textfile="$(find navbot)/urdf/navbot_mkii.urdf" />
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publister" />
-  <include file="$(find mobile_base)/launch/mobile_base.launch" >
-    <arg name="mobile_base_port" value="$(arg mobile_base_port)" />
-  </include>
+  <include file="$(find mobile_base)/launch/mobile_base.launch" />
 
-  <include file="$(find head_unit)/launch/head_unit.launch" />
-
+<!--  <include file="$(find head_unit)/launch/head_unit.launch" />
+-->
 </launch>

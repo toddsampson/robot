@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="blah">
   <xacro:include filename="../../mobile_base/urdf/mobile_base_mkii.xacro" />
-  <xacro:include filename="../../head_unit/urdf/head_unit_mkii.xacro" />
+<!--  <xacro:include filename="../../head_unit/urdf/head_unit_mkii.xacro" />
+-->
 </robot>

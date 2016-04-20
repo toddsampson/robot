@@ -17,4 +17,36 @@
       </material>
     </visual>
   </link>
+
+  <link name="imu_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+	<box size="0.0305 0.0203 0.0051"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="base_link_to_imu_link" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.0238 0 -${platform_h/2 - 0.05}" />
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <link name="neato_laser">
+    <visual>
+      <geometry>
+        <cylinder length="0.018" radius="0.04"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_to_neato_laser" type="fixed">
+    <origin rpy="0 0 0" xyz="0.102 0  ${platform_h + 0.045}" />
+    <parent link="base_link"/>
+    <child link="neato_laser"/>
+  </joint>
+
+
 </robot>

@@ -1,3 +1,4 @@
 SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", GROUP="dialout"
-SUBSYSTEM=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="2341", ATTRS{idVendor}=="8041", GROUP="dialout"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2341", ATTRS{serial}=="9533130303435171B231", GROUP="dialout", SYMLINK+="mobile_base_drive"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2341", ATTRS{serial}=="95331303034351911171", GROUP="dialout", SYMLINK+="mobile_base_imu"
 
