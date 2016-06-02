@@ -9,15 +9,46 @@
   </include>
 -->
   <!-- IMU -->
-  <node pkg="rosserial_server" type="serial_node" name="imu" args="_port:=/dev/mobile_base_imu"/>
+  <node pkg="rosserial_server" type="serial_node" name="imu" args="_port:=/dev/ttyACM1"/>
 <!--  <include file="$(find rosserial_server)/launch/serial.launch">
     <arg name="port" value="/dev/mobile_base_imu" />
   </include>
 -->
+ <node name="imu_throttler" type="throttle" pkg="topic_tools" args="messages /imu 5 /imu_throttled"/>
+
   <!-- Lidar laser -->
   <node pkg="xv_11_laser_driver" type="neato_laser_publisher" name="laser" args="_port:=/dev/mobile_base_lidar _firmware_version:=2" />
 
   <node pkg="mobile_base" type="base_controller" name="base_controller" />
+
+ <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+      <param name="frequency" value="25"/>
+      <param name="sensor_timeout" value="0.2"/>
+      <param name="two_d_mode" value="true"/>
+      <remap from="odometry/filtered" to="/robot_localization/odom_combined"/>
+
+      <param name="odom_frame" value="odom"/>
+      <param name="base_link_frame" value="base_link"/>
+      <param name="world_frame" value="odom"/>
+      <param name="transform_time_offset" value="0.0"/>
+      <param name="odom0" value="odom"/>
+      <param name="imu0" value="imu_throttled"/>
+      <rosparam param="odom0_config">[true, true, false,
+                                      false, false, true,
+                                      false,  false, false,
+                                      false, false, true,
+                                      false, false, false]</rosparam>
+      <rosparam param="imu0_config">[false, false, false,
+                                     false,  false,  true,
+                                     false, false, false,
+                                     false,  false,  true,
+                                     true,  false,  false]</rosparam> -->
+      <param name="odom0_differential" value="false"/>
+      <param name="imu0_differential" value="true"/>
+
+      <param name="odom0_relative" value="false"/>
+      <param name="imu0_relative" value="true"/>
+    </node>
 
 </launch>
 
